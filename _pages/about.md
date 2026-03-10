@@ -2,7 +2,7 @@
 layout: about
 title: about
 permalink: /
-subtitle: 自愿大人
+subtitle: 大家好
 
 profile:
   align: right
@@ -11,10 +11,8 @@ profile:
   more_info: >
     <p>(+852) 64347736</p>
     <p>(+86) 13611007310</p>
-    <p>Wechat: Uregrotesque</p>
-    <p>我去,我是谁</p>
-
-
+    <p>Email : yguocn@connect.ust.hk</p>
+    <p>Wechat : Uregrotesque</p>
 
 
 selected_papers: false # includes a list of papers marked as "selected={true}"

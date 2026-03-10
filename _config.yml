@@ -2,14 +2,14 @@
 # Site settings
 # -----------------------------------------------------------------------------
 
-title: GUO Yiheng's Personal Website # the website title (if blank, full name will be used instead)
+title: GUO Yiheng # the website title (if blank, full name will be used instead)
 first_name: GUO
 middle_name: (Ethan)
 last_name: Yiheng
 contact_note: >
   HKUST COMP 28' 
 description: > # the ">" symbol means to ignore newlines until "footer_text:"
-  Welcome to my personal website! I am a Undergraduate student at HKUST majoring in Computer Science. I am passionate about exploring the intersection of technology and creativity, and I enjoy working on projects that challenge me to think outside the box. On this website, you can find my portfolio, blog, and contact information. Feel free to reach out if you want to collaborate or just say hi!
+  <p>Welcome to my personal website! I am a Undergraduate student at HKUST majoring in Computer Science. I am passionate about exploring the intersection of technology and creativity, and I enjoy working on projects that challenge me to think outside the box. On this website, you can find my portfolio, blog, and contact information. Feel free to reach out if you want to collaborate or just say hi!</p>
   
 footer_text: >
   © {{ site.time | date: "%Y" }} {{ site.title }}. All rights reserved.
