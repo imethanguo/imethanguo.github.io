@@ -1,0 +1,245 @@
+2.23
+Content:
+1. Default constructor
+2. Global/Local Object
+3. "explicit" keyword
+4. RVO (copy elision)
+5. Uniform initialization ( " {} ")
+6. function and constructor overloading
+7. func with default arguments
+8. Member initializer list
+9. Delegating Constructor
+
+
+"Once we define our own constructor than program will NOT generate any constructor"
+
+e.g. X(int n){} in class definition
+int main(){ X obj;} // Error! No Default Constructor! 
+
+
+
+Compiler-generated default constructor --- deta members are not initialized
+
+静态初始化 (global)/ 动态初始化 (local)
+
+Global obj (defined outside main/function) -> "0"
+e.g. X arr1[10]; int main(){ ... }
+
+
+Local obj -> Random value (garbage value)
+e.g. int main(){X arr2[10];  }
+ 
+Remark: 
+1. Global object的生命周期是整个程序的运行时间。它在 main() 函数执行之前被构造（初始化），在 main() 函数执行之后被析构。
+2. Global object的存储位置通常存储在程序的静态存储区（静态存储持续时间）。
+3. Local Object的生命周期仅限于该函数或代码块的执行期间
+4. Local Object的存储位置：普通的局部变量：栈上。 / 使用 new 创建的局部指针指向的对象：堆上（但指针本身在栈上）。
+
+
+
+"explicit" Keyword
+
+
+explicit copy constructor:
+explicit Word(const Word& word){....}
+
+Word w("comp2012") // OK!
+Word w1 = "comp2012" // implicit copy constructor! error
+
+
+void fun_pbr(const Word& w){} // no error when calling, since PBR does not need copy constructor
+void fun_pbv(Word w){}  // ERROR!
+                        // NEED COPY constructor but COPY constructor is declared "explicit"
+**当调用 fun_pbv(w) 时，编译器需要：
+1. 创建函数参数 w（局部变量）
+2. 用实参 w 初始化这个局部变量
+3. 这需要调用拷贝构造函数
+ 
+RBV Retrun by Value:
+Y g() { Y temp ; return temp;}
+void f(Y y){y.print;}
+
+// RVO (copy elision)
+// disable
+// -fno-elide-constructors
+
+
+Example:
+
+int main()
+{
+    Y y2(10,0.5); // conversion constructor
+    Y y3 = y2; // copy constructor
+    f(y3) // pass by value! firstly initialize a new temp obj (by copying)
+    g();
+}
+
+With copy elision
+Output:
+Y(int, float)
+Y(const Y&)
+Y(const Y&)
+
+// WHEN RVO:
+// there is no copy constructor involved when return obj in g()
+// the temp obj will directly be returned
+
+--- Line 1: Y y2(10, 0.5) ---
+Conversion constructor (int, double)
+ 
+--- Line 2: Y y3 = y2 ---
+Copy constructor
+
+--- Line 3: f(y3) ---
+Copy constructor    (为f函数的参数创建副本)
+Print function
+Destructor          (销毁f函数的参数)
+
+--- Line 4: g() ---
+Default constructor (创建temp)
+                    (拷贝省略：直接使用temp作为返回值，没有拷贝)
+Destructor          (销毁temp)
+
+--- End of main ---
+Destructor          (销毁y3)
+Destructor          (销毁y2)
+
+With no copy elision
+
+Y(int, float)
+Y(const Y&)
+Y(const Y&)
+10 0.5
+Y()
+Y(const Y&)
+
+--- Line 1: Y y2(10, 0.5) ---
+Conversion constructor (int, double)
+
+--- Line 2: Y y3 = y2 ---
+Copy constructor
+
+--- Line 3: f(y3) ---
+Copy constructor    (1. 为f函数的参数创建副本)
+Print function
+Destructor          (2. 销毁f函数的参数)
+
+--- Line 4: g() ---
+Default constructor (3. 创建temp)
+Copy constructor    (4. 将temp拷贝到返回值临时对象) // RVO OFF!
+Destructor          (5. 销毁temp)
+Copy constructor    (6. 将返回值临时对象拷贝到？这里有问题，见下方详细分析)
+
+--- End of main ---
+Destructor          (7. 销毁y3)
+Destructor          (8. 销毁y2)
+
+
+Uniform initialization
+
+() , {} , =
+
+// Conversion Constructor
+Word w1('A')
+Word w2{'B'}
+
+' = ' does not always mean assignment!
+ e.g. Word word1 = word2 // Copy Construction!
+
+
+What is this ? 
+Word w();
+--> Function declaration! doing nothing
+Word w{};
+--> Good! default initialization
+
+
+int main () { int a(1); } // No error , equals to "int a = 1" 
+class A() { private: int a(1);} // Error!
+
+Why?
+在 C++ 的语法规则里，圆括号 () 不能被用于指定类内非静态数据成员的默认值。
+--> Reason : Complier cannot tell whether it is a data member OR a "Member function" !
+
+
+Function and constructor overloading
+
+
+e.g. :
+
+class Word /* File: overload-constructor.cpp */
+{
+ private:
+ int frequency;
+ char* str;
+
+public:
+
+ // Function overloading!
+
+ Word(); // Default constructor
+ Word(const char* s, int k = 1); // Maybe conversion constructor
+ Word(const Word& w); // Copy constructor
+ }
+
+Operator overloading -> Later chapter
+
+Constructor with default arguments
+
+Word()
+Word( const chat* s = nullptr , int k = 1) // can only declare default argument ONCE!
+
+int main(){
+     Word w; // cannot decide! program failed
+     Word w(); // No Error! function declaration
+}
+
+
+
+
+Member initializer list
+
+class XYZ{
+private : X x, Y y, Z z;
+...
+}
+
+when initializing:
+X()
+Y()
+Z()
+XYZ() 
+
+the order is not depend on the order of MIL
+the order is ONLY depend on the order in "private"
+// private:
+X x;
+Y y;
+Z z;
+then X(), Y() ,Z(), XYZ()
+
+Remarks:
+if we are constructor self-defined data memberin MIL , 
+We are definitely going to use "Constructor" , no assignment involved
+
+
+Const Data member: 
+const or reference members MUST be initialized using member
+initializer list if they don’t have default initializers
+
+e.g. 
+private : const int a = 3.14; // Okay
+          int& b = a ;//Okay
+
+A(): a(3.14) , b(a) // Okay {
+
+    a = 3.14; // ERROR!
+    b = a; // ERROR!
+}
+
+
+Delegating constructor
+
+
+X(int n): X(),n{n}{}; // ERROR!! delegating constructor must be the ONLY thing in MIL
+X(int n): X() {} // Good
