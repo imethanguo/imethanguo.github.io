@@ -11,8 +11,8 @@ profile:
   more_info: >
     <p>(+852) 64347736</p>
     <p>(+86) 13611007310</p>
-    <p>Email : yguocn@connect.ust.hk</p>
-    <p>Wechat : Uregrotesque</p>
+    <p>yguocn@connect.ust.hk</p>
+    <p>Wechat: Uregrotesque</p>
 
 
 selected_papers: false # includes a list of papers marked as "selected={true}"
