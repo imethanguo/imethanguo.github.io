@@ -2,7 +2,7 @@
 layout: about
 permalink: /lecture_note/
 title: Download
-subtitle: Download some of my lecture note
+subtitle: Download some of my lecture notes
 nav: true
 nav_order: 1
 ---
