@@ -4,17 +4,17 @@ const ninja = document.querySelector('ninja-keys');
 // add the home and posts menu items
 ninja.data = [{
     id: "nav-about",
-    title: "about",
+    title: "About",
     section: "Navigation",
     handler: () => {
       window.location.href = "/";
     },
-  },{id: "nav-lecturenote",
-          title: "LectureNote",
-          description: "This is a description of the page. You can modify it in &#39;_pages/cv.md&#39;. You can also change or remove the top pdf download button.",
+  },{id: "nav-download",
+          title: "Download",
+          description: "",
           section: "Navigation",
           handler: () => {
-            window.location.href = "/lectur_note/";
+            window.location.href = "/lecture_note/";
           },
         },{id: "post-a-post-with-plotly-js",
         
@@ -387,11 +387,8 @@ ninja.data = [{
             },},{id: "news-我出生了",
           title: '我出生了',
           description: "",
-          section: "News",},{id: "news-我饿",
-          title: '我饿',
-          description: "",
-          section: "News",},{id: "news-我需要食物",
-          title: '我需要食物',
+          section: "News",},{id: "news-我饿了",
+          title: '我饿了 :(',
           description: "",
           section: "News",},{id: "projects-project-1",
           title: 'project 1',
