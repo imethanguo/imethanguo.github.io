@@ -22,8 +22,8 @@ Some of my lecture notes:)
 - [Linear Regression](/assets/pdf/Linear_regression.pdf)
 - [Logistic Regression](/assets/pdf/Logistic_regression.pdf)
 - Other Approaches To Classfication
-- Bias-Variance Decompostion
-- Feed-Forward Neural Network
+- [Bias-Variance Decompostion](/assets/pdf/Bias-Variance_decomposition%20copy.pdf)
+- [Feed-Forward Neural Network](/assets/pdf/Feed-forward_Neural_Network.pdf)
 - Fundamental Issues in Deep Learning
 - Convolutional Neural Network
 
@@ -40,6 +40,6 @@ Some of my lecture notes:)
 - [COMP 2012 2.25](/assets/txt/2.25.txt)
 - [COMP 2012 3.2](/assets/txt/3.2.txt)
 - [COMP 2012 3.4](/assets/txt/3.4.txt)
-- COMP 2012 3.9
-- COMP 2012 3.11
+- [COMP 2012 3.9](/assets/txt/3.9.txt)
+- [COMP 2012 3.11](assets/txt/3.11.txt)
 
