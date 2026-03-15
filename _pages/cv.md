@@ -14,7 +14,7 @@ Some of my lecture notes:)
 - [Inversion Counting / Max Subarray](/assets/pdf/inversion%20counting-max%20Subarray.pdf)
 - [Multiplication / Master Theorem](/assets/pdf/Multiplication_Master_theorem.pdf)
 - [Randomized Algorithm](/assets/pdf/Randomized_algorithm.pdf)
-- [Fast Sort / Random Selection](/assets/pdf/Quick_Sort_Random_Selection.pdf)
+- [Quick Sort / Random Selection](/assets/pdf/Quick_Sort_Random_Selection.pdf)
 - [Heap Sort](/assets/pdf/Heap_sort.pdf)
 
 ### COMP 4211
