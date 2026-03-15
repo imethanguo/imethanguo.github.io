@@ -1,5 +1,8 @@
 3.9
 Content:
+1. Order of Con/Destruction w/ Inheritance
+2. Problems w/ inheritance
+
 
 
 
