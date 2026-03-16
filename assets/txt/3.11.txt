@@ -1,7 +1,7 @@
 3.11 
 Content:
 1. Member access control
-2. Polymorphism & “Virtual” keyword
+2. Polymorphism & “Virtual” keyword (Dynamic Binding)
 
 
 UPerson::print()
@@ -47,6 +47,28 @@ hard to update
 
 it is preferable to use private instead of protected
 
+public: 
+accessible to
+1. member functions of the class (from class developer)
+2. any member functions of other classes (application
+programmers)
+3. any global functions (application programmers)
+
+
+protected: 
+accessible to
+1. member functions and friends of the class
+2. member functions and friends of its derived classes
+(subclasses)⇒ class developer restricts what subclasses may directly use
+
+private: 
+accessible only to
+1. member functions and friends of the class ⇒ class developer enforces information hiding
+
+Remark:
+Without inheritance, private and protected control are the same
+
+
 
 Virtual:
 
@@ -58,12 +80,16 @@ Derived derivedObj;
 derivedObj.f()
 
 //Liskov
+
+Pointer:
+
 Base* basePtr1 = & baseObj;
 Base* basePtr2 = & DerivedObj;
 basePtr1->f();  // call Base::f()
 basePtr2->f();  // if not "virtual":  call Base::f() since it is baseptr
                 // if virtual : call Derived:: f()!
 
+Ref:
 
 Base& baseRef1 = baseObj;
 Base& baseRef1 = derivedObj;
@@ -75,7 +101,7 @@ baseRef2.f()    // if not "virtual":  call Base::f() since it is baseptr
 
 it is decided during execution!
 
-dynamic binding
+Dynamic binding
 
 
 if a method is declared virtual in the base class 
@@ -93,7 +119,13 @@ RTTI: Run Time Type Information
 
 keeps track of dynamic types
 
-typeid()
+typeid() & typeid().name
+
+Base* ptr = new Derived;
+
+typeid(ptr).name -> 7Derived!
+
+
 
 
 dynamic_cast<>()
