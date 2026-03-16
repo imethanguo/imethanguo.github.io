@@ -1,0 +1,210 @@
+3.16
+Content:
+1. Virtual function
+2. Dynamic Binding (typeid)
+3. Overloading & Overriding
+4. Virtual in Destructor/Constructor
+5. ABC
+
+
+about virtual function's implementation:
+
+class A{
+    public:
+        virtual void f() const; // declaration
+}
+
+ void A:f() const{
+    ...
+}   //we should not write "virtual" here (implementation) again!
+
+
+Base* baseptr = new DeriveFromDerived;
+
+Base class has a virtual f()
+Derived class has a f()
+Derived Derived class has a f()
+baseptr->f();
+
+--> call Derived Derived class's f()!
+why?
+if base class's function is "virtual"
+then the same function in derived class /derived derived class /... is all "virtual"!
+
+
+How to compare different objects? (i.e. check real identity of an object)
+
+typeid()
+typeid().name
+
+1. typeid(ptr1) == typeid(ptr2)
+2. strcmp(typeid(ptr1).name,typeid(ptr2).name) // typeid().name is actually “const char*”!
+                                                // don‘t write "typeid(ptr1).name == typeid(ptr2).name"!
+
+3. dynamic_cast<Derived*>(basePtr) != nullptr (though maybe ancestor)
+
+Remarks:
+for dynamic_cast<>():
+if dealing with pointer & invalid(e.g. down casting) -> nullptr
+if dealing with ref & invalid -> Runtime Error! --> we better not dynamic cast reference
+
+"override" keyword:
+
+1. Overriding is not possible if the method is not virtual.
+
+class Base
+{
+    public:
+        virtual void f(int a) const { cout << a << endl; }
+};
+
+class Derived: public Base
+{
+    int x {25};
+    public:
+        void f(int) const override; // prototype must be IDENTICAL with base class function!
+};
+
+void Derived::f(int a) const {}     // (don't write "override" again when implementation!)
+
+Remark:
+如果基类没有使用 virtual，子类写 override 不仅没用，还会导致编译错误！
+
+Virtual Or Non-virtual?
+
+If the method works exactly the SAME for all derived
+classes, it should not be a virtual function.
+
+If the precise behaviour of the method "depends on the
+object", it should be a virtual function
+
+
+Overriding vs Overloading:
+
+
+Overloading:
+f();
+f(int a);
+same name , different parameter --> overloading
+
+Overriding:
+
+Base class : virtual f();
+             f(int a);
+
+Derived class : f();
+
+Derired derivedObj;
+derivedObj.f(100);//error!
+
+
+overriding will actually "hides" the f()
+
+名称隐藏(Name Hiding) :当派生类定义了一个同名函数 f() 时，它会隐藏基类中所有同名的函数，不管参数是否相同
+
+Derived class : f(); --> "hides" Base:: f(int a)! though not same prototype
+
+C++ 的名称查找按照以下顺序进行：
+
+先在 Derived 类的作用域 查找名字 f
+
+找到了 Derived::f()（无参数版本） -> 停止查找! 不会继续在基类中查找其他重载版本
+
+进行参数匹配，发现参数不匹配 → 编译错误!
+
+
+
+
+Virtual in Destructor:
+
+Base* basePtr = new Derired; // Derired has its own dynamic allocated data member!
+
+delete basePtr; // Error, Memory Leak!
+
+
+What we do before "virtual" : delete static_cast<Derired*>(basePtr);
+
+Now:
+
+class Base{
+    public:
+        virtual ~Base(){}
+}
+
+class Derived{
+    public:
+        ~Derived(){}
+}
+
+Base* basePtr = new Derired;
+delete basePtr; // call ~Derived! since polymorphism -> No Erorr!
+
+Order:
+
+if no virtual:
+
+1. Base class constructor
+2. Derired class constructor
+3. Base class constructor // Probably an error
+
+if virtual:
+1. Base class constructor
+2. Derired class constructor
+3. Derived class destructor
+4. Base class destructor
+
+Calling virtual function in Constructor:
+
+class Base {
+public:
+    Base() { cout << "Base’s constructor\n"; f(); }
+    virtual void f() { cout << "Base::f()" << endl; }
+};
+
+class Derived : public Base {
+    public:
+        Derived() { cout << "Derived’s constructor\n"; }
+        virtual void f() override { cout << "Derived::f()" << endl; }
+};
+
+Base* p = new Derived;
+
+Derived's constructor
+Base’s Constructor
+Base::f()   // here, though "virtual" ,constructor still call Base::f()
+
+            // Why? Derived class is not completely initialized yet!
+Remarks
+Do not rely on the virtual function mechanism during the
+execution of a constructor.
+
+This is not a bug, but necessary — how can the derived
+object provide services if it has not been constructed yet?
+(没初始化完成的class无法提供member function -> Base class function)
+
+Similarly, if a virtual function is called inside the base class
+destructor, it represents base class’ virtual function: 
+
+when a derived class is being deleted, the derived-specific portion has
+already been deleted before the base class destructor is called!
+(derived class 先被删除, 已经不完整的class, 无法提供member function -> Base class function)
+
+ABC:  Abstract Base Class
+
+
+"Pure virtual function" 
+
+e.g. virtual double compute_net_worth() const = 0;
+
+no need to be defined for this class
+-> have to be "override" in derived class!
+
+ABC: A class with Pure virtual function
+
+Abstract class{ 
+    ...
+    virtual double compute_net_worth() const = 0;
+}
+
+Abstract obj; // Error! You cannot initialize an ABC object!
+
