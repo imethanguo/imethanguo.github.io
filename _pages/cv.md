@@ -26,6 +26,7 @@ Some of my lecture notes:)
 - [Feed-Forward Neural Network](/assets/pdf/Feed-forward_Neural_Network.pdf)
 - Fundamental Issues in Deep Learning
 - Convolutional Neural Network
+- Recurrent Neural Network
 
 
 
