@@ -2,7 +2,7 @@
 Content:
 1. Inheritance
 2. Redefinition & Include Guard
-3. Polymorphic (Liskov Substitution Principle)
+3. Liskov Substitution Principle
 4. Slicing
 5. Function overloading
 6. Initialization of Classes in a Inheritance hierarchy
@@ -119,14 +119,14 @@ study(const Student* student)
 UPerson p;
 Student s;
 
-print(s) print(const UPerson& uperson)
-print(p) print(const UPerson& uperson)
-print(&s) print(const UPerson* uperson)
-print(&p) print(const UPerson* uperson)
-study(s) study(const Student& student)
-study(p) ERROR
-study(&s) study(const Student* student)
-study(&p) ERROR
+print(s) ->print(const UPerson& uperson)
+print(p) ->print(const UPerson& uperson)
+print(&s) ->print(const UPerson* uperson)
+print(&p) ->print(const UPerson* uperson)
+study(s) ->study(const Student& student)
+study(p) ERROR!
+study(&s) ->study(const Student* student)
+study(&p) ERROR!
 
 if add:
 print(const Student& student)
