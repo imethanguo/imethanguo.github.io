@@ -16,6 +16,7 @@ Some of my lecture notes:)
 - [Randomized Algorithm](/assets/pdf/Randomized_algorithm.pdf)
 - [Quick Sort / Random Selection](/assets/pdf/Quick_Sort_Random_Selection.pdf)
 - [Heap Sort](/assets/pdf/Heap_sort.pdf)
+- Sorting in Linear Time
 
 ### COMP 4211
 
