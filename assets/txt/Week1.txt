@@ -1,42 +1,45 @@
-______reference and pointer______
+Week1
+Content:
+1. Reference and pointer
+2. NEW FEATURES IN C++11
+3. Revision of OOP
 
+Reference: "alias"
 
+address of xref == address of x
 
-int&    "alias"
+Remarks: cannot initialize int& without bounding it to an object (i.e. int& ref;     # error!)
 
-* address of xref == address of x
+const int&
 
-* cannot initialize int& without bounding it to an object (i.e. int& ref;     # error!)
-
-———————— const int&
-
-* const int const_x = 5;
+const int const_x = 5;
   int non_const_x = 5;
 
   const int& const_xref = const_x; // ok!
-  const int& xref = non_const_x; // error! const int& have to bound to "const object"
+  
+  int& xref = const_x; // error! int& have to bound to "non-const object"
 
-* special case:   const int& ref = 5;     // Ok! no error
+special case:   const int& ref = 5;     // Ok! no error
                   (int& ref = 5;  // Error!)
 
 
-*   int y = 10;
-    xref = y;    // it is not rebindng!
+int y = 10;
+xref = y;    // it is not rebindng!
 
-                 // for reference ( int& , double& ... ), there is no rebindng at all!
-                    for ptr , pointer can rebindng to another obj
-
-                          |  x (xref) = 5  |
-                          |                |
-
-                           after "xref = y;"
-
-                          |  x (xref) = 10  | // Changing the "content" only!
-                          |                 | 
+for reference ( int& , double& ... ), there is no rebindng at all!
+for ptr , pointer can rebindng to another obj
 
 
+|  x (xref) = 5  |
+|                |
 
-——————  int*    "pointer" -> address
+ after "xref = y;"
+
+|  x (xref) = 10  | // Changing the "content" only! // still same address
+|                 | 
+
+
+int*    "pointer" -> address
          xptr ------- |    x    |
                       |         |
                         .......
@@ -45,12 +48,12 @@ int&    "alias"
 
 xptr has its own address
 
-int* xptr; // ok (memory allocated) “nullptr”
+int* xptr; // ok (static memory allocated) -> “nullptr”
 
-dereference: *ptr
+dereference: (*ptr)
 
-* ptr can point to nothing : nullptr
-  ref cannot exist without bounding to an object ( int& xref; is incorrect )
+ptr can point to nothing : nullptr
+ref cannot exist without bounding to an object ( int& xref; is incorrect )
 
 
 
@@ -80,7 +83,7 @@ int* ptr2 = &b;
                               // ptr++ can be used to iterate / traversal
                               // for ( ; ; ptr++){}
                             
-(b) cout << (ptr1/2) << endl; // invalid! cannot division!
+(b) cout << (ptr1/2) << endl; // invalid! cannot division! also multiplication
 
 (c) cout << (ptr1 < ptr2) << endl; // valid! comparison!
 
@@ -91,8 +94,9 @@ int* ptr2 = &b;
 int* ptr = 5 // error! convert "int" to "int*" is invalid!
 
 int& a = x;
-int& a = y;
-//error! redefinition!
+int& a = y; //error! redefinition!
+
+(a = y // Ok , but not rebindng , just assign value)
 
 dynamic memory allocation
 
@@ -120,7 +124,7 @@ const char* ptr_s2 = "123"; // special case! valid
 int_array: all elements will be initialized as "0" by default
 
 
-_______NEW FEATURES IN C++11__________:
+NEW FEATURES IN C++11:
 
 1. General initialization using {} list:
 
@@ -175,7 +179,7 @@ int (&v) [3] = arr;
 
 
 
-_____Revision of OOP_______:
+Revision of OOP:
 
 class Person{
   private:
