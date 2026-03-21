@@ -57,3 +57,7 @@ Some of my lecture notes:)
 - COMP 3211 Lecture 5
 - COMP 3211 Lecture 6
 
+### MATH 2011
+
+- Vector & Curves
+- Function of Several Variables
