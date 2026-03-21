@@ -51,6 +51,9 @@ Some of my lecture notes:)
 
 ### COMP3211
 
+- COMP 3211 Lecture 2
 - [COMP 3211 Lecture 3](/assets/pdf/Lecture%203.pdf)
 - [COMP 3211 Lecture 4](/assets/pdf/Lecture%204.pdf)
+- COMP 3211 Lecture 5
+- COMP 3211 Lecture 6
 
