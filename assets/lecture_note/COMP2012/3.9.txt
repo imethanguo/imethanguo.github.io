@@ -1,0 +1,78 @@
+3.9
+Content:
+1. Order of Con/Destruction w/ Inheritance
+2. Problems w/ inheritance
+
+
+
+
+Order of Con/Destruction w/ Inheritance:
+
+Construction:
+1. Base class( Its parent)
+2. Data member
+3. Derived class
+
+Remark: A inherits B then:
+B obj; B:this = A:this
+
+Destruction:
+
+1. Derived class
+2. Data member
+3. Base class
+
+
+Order of Con/Destruction w/ Inheritance & Delegating Constructor:
+
+B():B(0,1){}
+B(int a, int b):A(n),b(m){}
+~B(){}
+A():A(1){}
+A(int a):A(a){}
+~A(){}
+
+Construction:
+A(int a):A(a){}
+A():A(1){}
+B(int a, int b):A(n),b(m){}
+B():B(0,1){} 
+
+
+Problem with Inheritance:
+
+1. Slicing:
+assingment from derived class to base class -> lose features
+
+B* bptr = new D(300,400);
+
+delete bptr // Error! It is actually a D obj but we're using B's destructor
+
+"static_cast"
+--> delete static_cast<D*>(bptr) // Okay
+
+OR: Polymorphism "virtual"
+
+2. Name Conflicts
+
+class B {
+    private:
+        int x,y;
+    public:
+        f();
+}
+
+class D: public B{
+    private:
+        float x,y;
+    public:
+        f();
+}
+
+x,y and f() from B have being hiden (this is not overloading)
+
+How to call x,y,f() from B?
+Using scope identifier "::"
+
+
+

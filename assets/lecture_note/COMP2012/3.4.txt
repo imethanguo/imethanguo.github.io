@@ -1,0 +1,153 @@
+3.4
+Content:
+1. Inheritance
+2. Redefinition & Include Guard
+3. Liskov Substitution Principle
+4. Slicing
+5. Function overloading
+6. Initialization of Classes in a Inheritance hierarchy
+
+Inheritance:
+We don't re-use by copying, we re-use by sharing
+
+Parent Class (Base Class)
+            |
+Child Class (Derived Class)
+
+class Student : public UPerson
+{
+    private:
+        float GPA;
+        Course* enrolled;
+        int num_courses;
+    public:
+        Student(string n, Department d,float x):
+            UPerson(n,d),GPA(x),enrolled(nullptr),num_courses(0){}
+            // Using Parent class Constructor in MIL
+            // Must in the MIL! Cannot be used in elsewhere
+}
+
+Base Class cannot call Derived Class's member function
+Derived Class can call Base Class's member function
+Derived Class can call Its own member function
+
+Children class inherit: 1. data member from base class
+                        2. member function in base class 
+
+
+
+
+Redefinition(Error):
+
+main.cpp ---include---> student.h & teacher.h
+teacher.h  ---include---> UPerson.h
+student.h  ---include---> UPerson.h
+
+--> UPerson Has been "Include" TWICE in main.cpp!
+
+Since Include is like Copy("#include" == "Copy & Paste"), 
+There is redefinition ( We define "UPerson" TWICE!)
+
+How to prevent?:
+"Conditional Include"
+
+"""
+if we have included then do not include
+if we have not then include
+"""
+
+Preprocessor directives --> "Include guard"
+
+# ifndef _UPERSON_H // if not defined
+# define _UPERSON_H
+
+ /// MAIN PART///
+
+#endif
+
+
+
+Polymorphic or Liskov Substitution Principle
+
+Since Student inherits from UPerson,
+"A Student obj can be treated like a Upreson obj"
+
+A STUDENT OBJECT IS A UPERSON OBJECT!
+--> all method of UPERSON can be called by a Student object
+
+Since a Student/Teacher object is also a UPerson object,
+any functions defined on UPerson objects may also be called
+by any Student and Teacher objects
+ 
+Remark: UPerson cannot use Student/Teacher's own member function
+
+If : D inherits from B
+Then:
+1. Every D object is also a B object, but not vice-versa.
+2. B is a more general concept; D is a more specific concept.
+3. Wherever a B object is needed, a D object can be used instead.
+
+
+Function Expecting an Argument of Type |    Will Also Accept
+---------------------------------------|-----------------------
+UPerson                                |    Student
+pointer to UPerson                     |    pointer to Student
+UPerson reference                      |    Student reference
+
+UPerson* ptr1 = &student1 // Okay!
+
+void print(Upreson uperson){...}
+print(student1)// Okay!
+void print2(Student student){...}
+print(uperson1) // Error, Upreson is not a Student object!
+
+
+"Slicing":
+
+If B Obj = dObj;
+then Obj is sliced from dObj --> Losing D Obj's own FEATURES!
+
+Function overloading:
+
+print(const UPerson* uperson)
+print(const UPerson& uperson)
+print(const Student& student)
+print(const Student* student)
+study(const Student& student)
+study(const Student* student)
+
+UPerson p;
+Student s;
+
+print(s) ->print(const UPerson& uperson)
+print(p) ->print(const UPerson& uperson)
+print(&s) ->print(const UPerson* uperson)
+print(&p) ->print(const UPerson* uperson)
+study(s) ->study(const Student& student)
+study(p) ERROR!
+study(&s) ->study(const Student* student)
+study(&p) ERROR!
+
+if add:
+print(const Student& student)
+print(const Student* student)
+
+print(s) print(const Student& student) // Best Match
+print(p) print(const UPerson& uperson)
+print(&s) print(const Student* student) // Best Match
+print(&p) print(const UPerson* uperson)
+study(s) study(const Student& student)
+study(p) ERROR
+study(&s) study(const Student* student)
+study(&p) ERROR
+
+Direct and indirect Inheritance:
+
+indirect inherit --> can be treated as direct base class obj & indirect base class obj
+
+
+
+Initialization of Classes in a Inheritance hierarchy
+
+Derived Class initialization must call Base class constructor
+-> since Base class has Private Data member which Derived class cannot Access

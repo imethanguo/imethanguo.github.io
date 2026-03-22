@@ -1,0 +1,224 @@
+Week1
+Content:
+1. Reference and pointer
+2. NEW FEATURES IN C++11
+3. Revision of OOP
+
+Reference: "alias"
+
+address of xref == address of x
+
+Remarks: cannot initialize int& without bounding it to an object (i.e. int& ref;     # error!)
+
+const int&
+
+const int const_x = 5;
+  int non_const_x = 5;
+
+  const int& const_xref = const_x; // ok!
+  
+  int& xref = const_x; // error! int& have to bound to "non-const object"
+
+special case:   const int& ref = 5;     // Ok! no error
+                  (int& ref = 5;  // Error!)
+
+
+int y = 10;
+xref = y;    // it is not rebindng!
+
+for reference ( int& , double& ... ), there is no rebindng at all!
+for ptr , pointer can rebindng to another obj
+
+
+|  x (xref) = 5  |
+|                |
+
+ after "xref = y;"
+
+|  x (xref) = 10  | // Changing the "content" only! // still same address
+|                 | 
+
+
+int*    "pointer" -> address
+         xptr ------- |    x    |
+                      |         |
+                        .......
+                      |         |
+                      |   xptr  |
+
+xptr has its own address
+
+int* xptr; // ok (static memory allocated) -> “nullptr”
+
+dereference: (*ptr)
+
+ptr can point to nothing : nullptr
+ref cannot exist without bounding to an object ( int& xref; is incorrect )
+
+
+
+struct
+
+struct Point{
+    int x,y;
+}
+
+Point point = {1,2};
+Point* point_ptr = &ptr;
+
+point.x , point.y 
+point_ptr->x , point_ptr->y ( (*point_ptr).x )
+
+
+Example ( about pointer ):
+
+int a,b = 5,10;
+
+int* ptr1 = &a;
+int* ptr2 = &b;
+
+
+# pointer arithmetic
+(a) cout << (ptr1+1) << endl; // valid! ptr+1 = ptr + sizeof( pointerType( i.e. sizeof(int) = 4 ) );
+                              // ptr++ can be used to iterate / traversal
+                              // for ( ; ; ptr++){}
+                            
+(b) cout << (ptr1/2) << endl; // invalid! cannot division! also multiplication
+
+(c) cout << (ptr1 < ptr2) << endl; // valid! comparison!
+
+(d) cout << (ptr1 && ptr2) << endl; // valid! boolian expression!
+(e) cout << (!ptr1) << endl; // valid! boolian expression!
+
+
+int* ptr = 5 // error! convert "int" to "int*" is invalid!
+
+int& a = x;
+int& a = y; //error! redefinition!
+
+(a = y // Ok , but not rebindng , just assign value)
+
+dynamic memory allocation
+
+int* ptr = new int;
+
+
+char str1[10] = "comp2012"; // 10 elements
+char str1[] = "comp2012";  // 9 elements! including null char "/0"
+
+char* strptr = str1;
+
+cout str1 , strptr ---> both "comp2012"! // str1 is a char pointer! if cout char pointer , it print out the char itself; i.e. "comp2012" instead of "0x...."
+
+reinterpret_cast<void*>(char_ptr) // char* -> print out char
+                                  // after cast -> print out address!
+                    
+-pedantic：对不符合标准的代码发出 警告。代码通常仍能编译通过。
+-pedantic-errors：将 -pedantic 产生的警告升级为 错误。代码将无法编译通过。这对于确保严格合规性非常有用。
+
+char* ptr_s2 = "123"; // wrong! ( but can be compile (with warning) )
+
+const char* ptr_s2 = "123"; // special case! valid
+
+
+int_array: all elements will be initialized as "0" by default
+
+
+NEW FEATURES IN C++11:
+
+1. General initialization using {} list:
+
+before c++11:
+
+int x = 5;
+int& ref = x;
+int a[] = {1,2,3}
+
+struct Point{
+    int x,y;
+}
+Point point = {1,2};
+
+c++11:
+
+int x {5}; // "=" is optional!
+int& ref {x};
+int a[] {1,2,3}
+
+Remarks: {} is more restrictive!! it doesn't allow conversions that LOSE INFORMATION
+
+e.g.
+int x = 3.4; // valid , convert to 3 by default;
+
+int x {3.4} // invalid!! lose INFORMATION (warning but can compile)
+int x = {3.4} // invalid!! lose INFORMATION (warning but can compile)
+int x { 'k' } // valid!! does not lose INFORMATION!
+
+
+char[3] str = {'c','p','p'}; // no null character!
+
+
+range-for 
+
+for ( int& a : arr)
+{
+  a++; // reference , will change the actual elements in arr;
+}
+
+
+2d array
+for (int (&v)[3]: arr2d){  // have to use reference in order to iterate the second-level array
+  for (int k : v)
+    cout << k << endl;
+}
+
+reference to an array:
+int arr[3] = {1,2,3};
+int (&v) [3] = arr;
+
+
+
+
+Revision of OOP:
+
+class Person{
+  private:
+  char* name; // dynamic memory allocation
+              // need "delete" , otherwise memory leak
+  //char* name[10]; // static memory allocation
+  int age;
+
+  public:
+
+  Person(){     // default constructor
+    name = nullptr;
+    age = 19;
+  }
+
+  Person( char* ptr, int a) // constructor
+  {
+    // we need DEEP COPY!
+    // dynamic memory allocation
+    name = new char[strlen(n)+1];  // HAVE TO clarify the length of char ( i.e. new char[] is invalid)
+    
+    strcpy(name,ptr);
+    age = a;
+  } 
+
+  ~Person(){      // destructor
+    delete[] name;
+  }
+
+
+  void print() // Accessor
+  {
+    .........
+  }
+
+  void updateAge(int a) // Mutator
+  {
+    .........
+  }
+
+
+}

@@ -1,0 +1,135 @@
+3.11 
+Content:
+1. Member access control
+2. Polymorphism & “Virtual” keyword (Dynamic Binding)
+
+
+UPerson::print()
+Student::print()
+
+This is not function overloading!
+
+How to call UPerson::print() in a student Obj? UPerson::print()!
+
+
+Derived Class cannot access Base class's data member!
+
+-> Have been declared "private"
+
+Solution: "protected"
+
+class UPerson{
+
+    protected:
+        string name;
+        Department dept;
+
+    public:
+    ...
+}
+
+protected:
+
+access from itself         Okay!
+access from derived class  Okay!
+access from outside        NO!
+
+
+Member access control
+
+
+protected vs private
+
+
+if protected: all derived class can access base class data member
+
+hard to update
+
+it is preferable to use private instead of protected
+
+public: 
+accessible to
+1. member functions of the class (from class developer)
+2. any member functions of other classes (application
+programmers)
+3. any global functions (application programmers)
+
+
+protected: 
+accessible to
+1. member functions and friends of the class
+2. member functions and friends of its derived classes
+(subclasses)⇒ class developer restricts what subclasses may directly use
+
+private: 
+accessible only to
+1. member functions and friends of the class ⇒ class developer enforces information hiding
+
+Remark:
+Without inheritance, private and protected control are the same
+
+
+
+Virtual:
+
+virtual keyword
+
+Base baseObj;
+baseobj.f();
+Derived derivedObj;
+derivedObj.f()
+
+//Liskov
+
+Pointer:
+
+Base* basePtr1 = & baseObj;
+Base* basePtr2 = & DerivedObj;
+basePtr1->f();  // call Base::f()
+basePtr2->f();  // if not "virtual":  call Base::f() since it is baseptr
+                // if virtual : call Derived:: f()!
+
+Ref:
+
+Base& baseRef1 = baseObj;
+Base& baseRef1 = derivedObj;
+baseref1.f()    // call Base::f()
+baseRef2.f()    // if not "virtual":  call Base::f() since it is baseptr
+                // if virtual : call Derived:: f()!
+
+// Why? 
+
+it is decided during execution!
+
+Dynamic binding
+
+
+if a method is declared virtual in the base class 
+
+it is automatically virual in ALL derived classes!
+
+polymorphism --> CHANGING SHAPE
+
+a pointer or reference must take advantage of polymorphism!
+
+why not value --> value passed by "slicing" there is no changing shape
+
+
+RTTI: Run Time Type Information 
+
+keeps track of dynamic types
+
+typeid() & typeid().name
+
+Base* ptr = new Derived;
+
+typeid(ptr).name -> 7Derived!
+
+
+
+
+dynamic_cast<>()
+
+if pointer & invalid -> nullptr
+
+if ref & invalid -> Runtime Error!

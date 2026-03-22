@@ -1,0 +1,78 @@
+3.18
+Content:
+1. ABC / Pure virtual function
+2. "final" keyword
+3. Further reading(protected/private inheritance)
+4. Function template
+
+
+ABC:
+
+class Shape{
+    public:
+        double get_square() = 0; // pure virtual function
+}
+
+
+class Square:public Shape{
+    public:
+        Square(){}
+        // no "double get_square()"
+}
+
+Shape obj; // Error ! Cannot create ABC obj
+Square square; // Error!
+
+An ABC has two properties:
+1. No objects of ABC can be created.
+2. Its derived classes must implement the pure virtual
+functions, otherwise they will also be ABC’s.
+
+ABC as "interface":
+An abstract base class provides a uniform interface to deal with a
+number of different derived classes.
+
+An abstract base class cannot be used:
+1. as an argument type that is passed by value
+2. as a function return type that is returned by value
+3. as the type of an explicit conversion
+
+"final" keyword
+
+class A {};
+class B: public A {};
+class C final: public B {}; // cannot furthe inherit C!
+class D: public B {};
+class E: public C {};
+
+E obj; // Error
+
+class Student : public UPerson {
+    public: /* Other data and functions */
+        virtual void print() const override final { /* incomplete */ } // Derired Class cannot further override "print"
+};
+
+class PG_Student : public Student {
+    public: /* Other data and functions */
+        virtual void print() const override { /* incomplete */ } //Error!
+}
+
+
+Further Reading:
+
+
+
+Template:
+
+int larger(int a,int b){}
+double larger(double a, double b){}
+....
+(Too many same function!)
+
+How to optimize code reusing?
+
+template<typename T>
+const T& larger(const T& a, const T& b)
+{
+    return (a>b)? a:b
+}
