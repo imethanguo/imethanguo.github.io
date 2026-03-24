@@ -16,7 +16,7 @@ Some of my lecture notes:)
 - [Randomized Algorithm](/assets/lecture_note/COMP3711/Randomized_algorithm.pdf)
 - [Quick Sort / Random Selection](/assets/lecture_note/COMP3711/Quick_Sort_Random_Selection.pdf)
 - [Heap Sort](/assets/lecture_note/COMP3711/Heap_sort.pdf)
-- Sorting in Linear Time
+- [Sorting in Linear Time](assets/lecture_note/COMP3711/Linear%20sort.pdf)
 - Greedy Algorithm
 
 ### COMP 4211
