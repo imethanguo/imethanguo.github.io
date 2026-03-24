@@ -18,6 +18,7 @@ Some of my lecture notes:)
 - [Heap Sort](/assets/lecture_note/COMP3711/Heap_sort.pdf)
 - [Sorting in Linear Time](assets/lecture_note/COMP3711/Linear%20sort.pdf)
 - Greedy Algorithm
+- Huffman Coding
 
 ### COMP 4211
 
@@ -47,6 +48,7 @@ Some of my lecture notes:)
 - [COMP 2012 3.11](/assets/lecture_note/COMP2012/3.11.txt)
 - [COMP 2012 3.16](/assets/lecture_note/COMP2012/3.16.txt)
 - [COMP 2012 3.18](/assets/lecture_note/COMP2012/3.18.txt)
+- COMP 2012 3.23
 
 
 ### COMP3211
