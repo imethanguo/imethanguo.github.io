@@ -1,3 +1,89 @@
 2.16
 Content:
 1. Conversion constructor
+2. Implicit conversion / explicit keyword
+3. Copy constructor
+4. Copy elision
+
+
+A constructor is called whenever an object is created:
+1. object creation
+2. pass / return by value (actually create a temporary object)
+
+
+class Word
+{
+    public:
+        Word(const char* s){}
+}
+print (Word x){}    // Pass by value
+int main()
+{
+    print("Titanic") // No Error! Why?
+}
+
+-> Implicit Conversion
+
+if A function is PBV (e.g. print (Word x)) ,implicit conversion will generate a temp obj
+if PBR then No implicit conversion
+ 
+"explicit" keyword: Disable implicit conversion
+ 
+Copy constructor
+
+Word(const Word& ){}
+
+Remark:
+1. Deep Copy / Shallow Copy:
+
+if class data member has dynamic memory allocation
+then copy constructor must to use "new" to dynamically allocate memory
+
+otherwise : shallow copy -> then when "destruct", Two object delete the same dynamically allocated obj
+                        -> "Double delete"-> RuntimeError
+
+Complier-generated copy constructor is Shallow copy one!
+
+2. default assignment operator "="
+
+obj2 = obj1; // Memberwise assignment
+            // if we dont overload operator -> Might shallow copy even though we have defined copy constructor
+
+copy constructor
+
+Obj obj2 = obj1; // copy construction
+
+Copy constructor are called when:
+1. Object PBV / RBV --> create a temp Object (No copy elision)
+
+fun_pbv(Word w){};
+call fun_pbv then copy constructor involved;
+
+fun_pbr(const Word& w){};
+fun_pbr(w) ->no constructor involved;
+fun_pbr("abc") -> conversion constructor involved (implicit conversion)
+
+fun_rbv(){
+    ...
+    return obj;  // Here, call copy constructor once;
+}
+
+Obj obj = fun_rbv(); // Here, call copy constructor twice;
+
+2. initialization (using assignment syntax though it is not assignment!)
+
+
+Copy Elision
+
+if No copy elision (RVO):
+
+fun_rbv(){
+    obj = ...;
+    return obj;  // Here, call copy constructor once;
+}
+
+Obj obj = fun_rbv(); // Here, call copy constructor twice;
+
+if RVO:
+
+then function directly use obj as return value -> only 1 time of copy at "Obj obj = fun_rbv()"

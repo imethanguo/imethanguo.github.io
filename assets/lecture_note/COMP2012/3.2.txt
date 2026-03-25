@@ -135,6 +135,8 @@ class B {
     B():A(20){...}    // Then b.a2 = 20
 }
 
+Constructor内赋值的优先级(从低到高): 1. private内赋值 2. MIL 3. Constructor内赋值
+
 
 4. Construction with Array
 
@@ -159,7 +161,7 @@ Complier-generated copy constructor--> Shallow copy!
 --> Double Delete --> Crash
 
 
-Case 2(Otherwise):
+Case 2(We have self-defined copy constructor):
 
 conversion: sunny
 copy : sunny

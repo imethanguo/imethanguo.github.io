@@ -6,20 +6,24 @@ Content:
 
 Const:
 
+声明: 不改变Data member
 Calling Object      const Member function       non-const Member function
 ----------------------------------------------------------------------------
 const Obj                   Okay                            NO
 non-const obj               Okay                            Okay 
 
---> Const Obj only can call Const member function
+// Const Obj only can call Const member function
 
-Passing Obj         const Function Argument     non-const Function Argument          
+Passing Obj         as const Function Argument     as non-const Function Argument          
 ------------------------------------------------------------------------------
-literal const               Okay                            NO
+literal const               Okay                            NO                   // literal const 的生命周期短,函数不能修改他
+                                                                                        (如果修改,做出的修改放在哪?)
 const obj                   Okay                            NO
 non-const obj               Okay                            Okay
 
-const obj / literal const cannot be passed in non-const function!
+”const obj“ & ”literal const“ cannot be passed in non-const function!
+
+”可以减小权限,不能增加权限“
 
 void cbr(int& a){}
 void cbr(const int&a ){}
@@ -35,7 +39,7 @@ int main()
     cbcr(123)  //Okay
 }
 
-"const" keyword in Class ---> read-only function --> cannot mutate class member
+"const" keyword in Class ---> “read-only function” --> cannot mutate class member
 
 
 const float PI = 3.14159
@@ -60,8 +64,13 @@ Case3 -> int* const ptr
 "Any const to the right of * refers to the pointer itself"
 -> Constant pointer to int ( " fixed ")
 
+"Any const to the left of * refers to the object being pointed to"
+"Any const to the right of * refers to the pointer itself"
 
-const int* & int const*
+Remark:
+int* const * p = const (int*) * p
+指向“ 常量int*” 的指针
+
 
 const int * ptr;
 int x = 10;
@@ -73,22 +82,19 @@ cout<< *ptr ; // Okay!
 
 x++; // Okay , x is modifiable!
 
-// x cannot be modified through ptr , but can be modified through x itself
+(ptr)++; // NO !
+         // x cannot be modified through ptr , but can be modified through x itself
 
 
-int* const
-
-int* const ptr
-
---> Initialization is a must!
+For "int* const", Initialization is a must!
 --> int* const ptr; // ERROR!
 
 int x = 10;
-int* const ptr = &x;
+int* const ptr = &x; // Okay
 
 
 int y = 20;
-ptr = &y; // ERROR, It suppose to be fixed!
+int* const ptr = &y; // ERROR, It suppose to be fixed! i.e. No re-binding!
 
 (*ptr) = 100; // OKAY , (*ptr) is regarded as modifiable
 

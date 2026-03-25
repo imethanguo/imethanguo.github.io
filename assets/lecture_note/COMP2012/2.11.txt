@@ -54,6 +54,7 @@ p = &x; // p ---> x's address
 f(p);
         // f(int* p) { int p = new int;} --> this "p" is a LOCAL VARIABLE!
         // f's p --> new int's address
+        // 可以读,不能改 (改变不会传到函数体外)
 
 // after f(p) : p ---> x's address
 return 0;
@@ -77,6 +78,10 @@ f(p);
         // f(int* p) {*p = 999; } --> local_p is copyed from p --> copying address stored in pointer
                                   --> they have the same address --> the actual (*P) is changed!
 // after f(p) : *p = 999;
+
+// 对指针本身->修改穿不到函数体外
+// 对指针指向的obj->地址相同 可以传到函数外
+
 return 0;
 }
 
@@ -92,6 +97,7 @@ int main()
 {
     int* p = nullptr;
     int x = 123;
+    p = &x;
     p = f();
     cout<< "after f()" << p <<endl; // p = new int's address 
                                     // since pass by pointer == pass address by value
@@ -108,11 +114,11 @@ void f2(int*& p){
 int main()
 {
     int* p = nullptr;
-    int x = 123;
     f2(p)
     cout<< "after f()" << p <<endl;  // since pass by reference
-                                    //  p is actually changed ! (Compare to simply PBP,
-                                                                    which p will not be changed
+                                    //  p is actually changed ! 
+                                    // Compare to simply PBP,where p will stay in "nullptr"
+
     return 0;
 }
 

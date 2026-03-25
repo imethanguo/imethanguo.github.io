@@ -219,13 +219,15 @@ Z z;
 then X(), Y() ,Z(), XYZ()
 
 Remarks:
-if we are constructor self-defined data memberin MIL , 
+if we are constructing self-defined data memberin MIL , 
 We are definitely going to use "Constructor" , no assignment involved
-
+"如果data member 都没有被完全构造,怎么会有赋值呢?“
 
 Const Data member: 
 const or reference members MUST be initialized using member
-initializer list if they don’t have default initializers
+initializer list OR initializer if they don’t have default initializers
+
+i.e. cannot initialize const/reference inside constructor!
 
 e.g. 
 private : const int a = 3.14; // Okay
