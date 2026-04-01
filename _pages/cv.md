@@ -19,6 +19,7 @@ Some of my handwritten notes:)
 - [Sorting in Linear Time](/assets/lecture_note/COMP3711/Linear%20sort.pdf)
 - Greedy Algorithm
 - Huffman Coding
+- Dynamic Programming
 
 ### COMP 4211
 
@@ -49,7 +50,9 @@ Some of my handwritten notes:)
 - [COMP 2012 3.16](/assets/lecture_note/COMP2012/3.16.txt)
 - [COMP 2012 3.18](/assets/lecture_note/COMP2012/3.18.txt)
 - COMP 2012 3.23
-- COMP 2012 3.35
+- COMP 2012 3.25
+- COMP 2012 3.30
+- COMP 2012 4.1
 
 
 ### COMP3211

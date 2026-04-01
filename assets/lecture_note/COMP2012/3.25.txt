@@ -1,0 +1,116 @@
+3.25
+Content:
+1. Issues on template (Issues on RBR)
+2. Reference to an array
+
+
+
+
+template <typename T1, typename T2> inline const T1& 
+    larger(const T1& a , const T2 &b) { return (a < b) ? b : a ;}
+
+(1) What if we return a T2 ref? (i.e. b > a)
+
+first, a temporary obj will generated , which is converted from T2 to T1
+then the temporary obj will be returned by reference
+--> Warning! we're returning a Temporary object by reference!
+
+similiarly to:
+
+const int& fun(double& b){
+    return b;
+}
+
+1. b --convert--> temporary int obj
+2. return the temporary int obj by reference 
+--> Warning! return temporary object by reference)
+
+Solution:
+1. Return by value
+2. Do not return anything
+
+  
+(2) What if we're calling larger( a , b ), where a,b are User-defined class object?
+
+Error! if we don't implement operator overloading
+
+
+
+Common Errors:
+
+template <typename T> T* create(){ return new T ;}
+
+int main(){
+create(); // What type ? How to initialize/delete?
+          // function w/o any arguments
+
+create<int>() // Okay! manually set argument type
+}
+
+
+Class Template:
+
+template <typename T>
+class List_Node{
+
+    public:
+        List_Node(const T& x): data(x){}
+
+        T data;
+        List_Node* next {nullptr}
+}
+
+initialization:   List_Node<int> node;
+
+
+template <typename T , int N> // we can add a non-type parameter to template!
+
+class Container{
+    ....
+    private:
+        T data[N]
+}
+
+Remark:
+non-type parameter MUST be a CONST EXPRESSION!
+
+
+
+Compound data type: 
+
+int arr[9]; --> data type: int[9]
+float arr2 [3]; --> data type: float[3]
+
+
+Reference to an Array:
+
+int arr [9] = {1,2,3,4,5,6,7,8,9}
+
+int (&ref) [9] = arr; // ref to an array
+
+int arr2 [3] = {1,2,3}
+
+void fun(int (&ref)[9]) ;
+
+fun (arr) // OK! They are the same type ( both int[9] )
+fun (arr2); // error! we cannot pass a "int[3]" obj to a "int[9]" parameter by reference!
+
+Pass by reference w/ Template
+
+template< typename T, int N>
+int f(T (&x) [N]){};
+
+f(arr); // Okay! T : int , N : 9 (this is interpreted by Complier)
+
+f(arr2); // Okay! T : int , N : 3
+
+ 
+Remarks:
+
+for class template , we MUST specify the Actual type of template argument when initialization!
+
+
+Seperate Compilation for template:
+
+A function/class template is instantiated only when it is
+used, and its definition must be in the same file which calls it.

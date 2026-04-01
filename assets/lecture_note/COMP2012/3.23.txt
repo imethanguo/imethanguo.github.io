@@ -1,0 +1,144 @@
+2.23
+Content:
+1. Some Remarks
+2. Function Template
+3. Template instantiation
+4. Explicit template instantiation
+5. Template specialization
+
+Remark:
+virtual void f() const final override {}
+virtual void f() const override final {}
+They are Both fine!
+virtual void f() override final const {} // Error!
+// const must next to f() (i.e. the function),since it is function which declared constructor
+
+Remark:
+if we want to use "typeid()" , We must #include <typeinfo>
+
+
+
+Function Template:
+
+template <typename T>
+const T& larger(const T&a, const T&b){return (a<b) ? a:b}
+
+larger(10,20)
+larger(1.5,2.5)
+larger("comp2011","cpp") 
+// They are all fine
+
+
+"Template instantiation"
+Template definition -> compiler -> Actual code of the program (i.e. subsituting T)
+
+template <typename T>
+
+T : formal parameter
+
+if calling a template with different type -> compiler generate SEPERATE instantiated function code for EACH type
+(the more types template called with , the larger the program size is )
+
+
+
+
+void g(int a, int b){} -> g(10,0.5) // Alright , Type coersion (double -> int)
+larger(10,0.5) // ERROR!
+
+For template , The parameter must be of the same type! There is NO implicit type coersion!
+
+if we want type conversion:
+Solution 1: manual conversion
+
+larger(10,static_cast<double>(0.5)) // Okay!
+
+Solution 2: Explicit template instantiation
+
+larger<int>(10,0.5) // 0.5 -> 0 (cast时采用向“整数”截断 : static_cast<int>(0.99) -> 0)
+larger<double>(10,0.5) // 10 -> 10.0
+
+They are all fine!
+
+
+Solution 3 : Can we have different types of parameters in the template?
+
+(1) "Template with multiple type parameters"
+template <typename T1, typename T2>
+
+void larger(T1 a ,T2 b){}
+
+larger(10,0.5)
+larger(0.5,10)
+// They are all fine!
+
+But : different types -> many combinations -> compiler generate many code fragments -> THIS IS NOT CODE REUSING!
+
+Remarks:
+
+larger("comp2012","c++") // Error! argument substitution failed
+
+since "comp2012" is recognized as char[9] while "c++" is char[4] -> They are not the same type!
+
+How to fix it : larger<string>("comp2012","c++")
+
+
+Remarks: comparing pointer
+
+const char* s3 = "microsoft"
+const char* s4 = "apple"
+
+larger(s3,s4) // output: "apple"
+
+Why? since larger() is comparing pointer , instead of the length of the pointer array
+
+Remarks: reinterpret_cast
+cout << s3 << endl;  // Output: microsoft
+cout << reinterpret_cast<const void*> (s3) <<endl; // Output : 0x1234567 (the address of the pointer points to)
+
+(2) Template specialization:
+
+template<>
+larger(const char* const& a, const char* const& b)
+
+const char* s3 = "microsoft"
+const char* s4 = "apple"
+
+when calling: larger(s3,s4)
+first , find the first template function:
+
+template <typename T1, typename T2>
+void larger(T1 a ,T2 b){}
+
+second, find the second template function:
+
+template<>
+larger(const char* const& a, const char* const& b)
+
+Since larger(const char* const& a, const char* const& b) is more matched , compiler will eventually calling this function
+
+ 
+What if we don't write template<>?
+
+then this is an ordinary function -> compiler will firstly use ordinary function
+
+function1:
+
+template<>
+larger(const char* const& a, const char* const& b)
+
+function2:
+
+larger(const char* const& a, const char* const& b)
+
+if we're calling larger(s3,s4) , the compiler will use function2.
+
+
+why const char* const &?
+
+// const T 表示：这个指针本身是常量
+const T& = const (const char*)& = const char* const&
+//         ^^^^^^^^^^^^^^^^
+//         指针本身是常量
+
+const char* = (const char)*
+const (char*) = char* const // the pointer itself is const
