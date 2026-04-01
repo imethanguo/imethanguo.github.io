@@ -126,10 +126,27 @@ Base* ptr = new Derived;
 typeid(ptr).name -> 7Derived!
 
 
-
-
 dynamic_cast<>()
 
 if pointer & invalid -> nullptr
 
 if ref & invalid -> Runtime Error!
+
+dynamic_cast<>() and static_cast<>():
+
+static_cast: NO RTTI Check!
+
+
+Base* BasePtr = new Derived;
+static_cast<Derived*>(BasePtr) -> No error, the program can be compiled
+
+Base* BasePtr = new Base;
+static_cast<Derived*>(BasePtr) -> undefined behaviour! Though it ALSO can be compiled
+
+While:
+
+Base* BasePtr = new Base;
+dynamic_cast<Derived*>(BasePtr) -> nullptr! no undefined behaviour! 
+
+-> it is more safer than static_cast
+

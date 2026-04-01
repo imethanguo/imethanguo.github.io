@@ -126,15 +126,16 @@ a++ ; // no parameter passing , no return by value
 
 inline with Class:
 
+if we want to declare a function inline:
+
 1. Inline function within the class body -> inline is optional!
 
-2. Outside class body ( BUT WITHIN THE SAME FILE) ,if we want declare "inline" 
-                                                   then "inline" keyword is MANDATORY!: 
+2. Outside class body ( BUT WITHIN THE SAME FILE):
+if we want declare "inline" , then "inline" keyword is MANDATORY!: 
 e.g. 
 class Person{ .....}
-
 Person* Person::child() const{return child;} // not inline
---> inline Person* Person::child() const{return child;} // inline
+inline Person* Person::child() const{return child;} // inline
 
 3. Outside class body ( in Seperate file ) ,all function is non-inline!:
 --> WE CANNOT USE INLINE IN SEPERATE FILE!
