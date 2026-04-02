@@ -18,8 +18,8 @@ Some of my handwritten notes:)
 - [Heap Sort](/assets/lecture_note/COMP3711/Heap_sort.pdf)
 - [Sorting in Linear Time](/assets/lecture_note/COMP3711/Linear%20sort.pdf)
 - [Greedy Algorithm](/assets/lecture_note/COMP3711/Greedy-Algorithm.pdf)
-- Huffman Coding
-- Dynamic Programming
+- Huffman EnCoding
+- Dynamic Programming(1D/2D)
 
 
 ### COMP 4211
