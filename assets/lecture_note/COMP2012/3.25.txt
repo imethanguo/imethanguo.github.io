@@ -114,3 +114,12 @@ Seperate Compilation for template:
 
 A function/class template is instantiated only when it is
 used, and its definition must be in the same file which calls it.
+
+Remarks:
+在 C/C++ 中，赋值表达式 的值，就是 赋值完成后左边变量的值
+
+"a = 0". <==> "0"
+
+if (0) --> Always false
+
+if (a = 0) --> Also Always false
