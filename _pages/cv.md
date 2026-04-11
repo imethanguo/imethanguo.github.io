@@ -33,6 +33,7 @@ Some of my handwritten notes:)
 - Convolutional Neural Network
 - Recurrent Neural Network
 - Transformer
+- Vision Transformers / Vision Language Models
 
 
 ### COMP 2012
@@ -68,4 +69,5 @@ Some of my handwritten notes:)
 ### MATH 2011
 
 - [Vector & Curves](/assets/lecture_note/MATH2011/Vector&Curves.pdf)
-- Function of Several Variablesi
+- Function of Several Variables
+- Multiple integration
