@@ -53,8 +53,9 @@ Some of my handwritten notes:)
 - [COMP 2012 3.18](/assets/lecture_note/COMP2012/3.18.txt)
 - [COMP 2012 3.23](/assets/lecture_note/COMP2012/3.23.txt)
 - [COMP 2012 3.25](/assets/lecture_note/COMP2012/3.25.txt)
-- COMP 2012 3.30
+- [COMP 2012 3.30](/assets/lecture_note/COMP2012/3.30.txt)
 - COMP 2012 4.1
+- [COMP 2012 4.13](/assets/lecture_note/COMP2012/4.13.txt)
 
 
 ### COMP3211
