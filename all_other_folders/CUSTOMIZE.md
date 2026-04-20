@@ -476,7 +476,7 @@ To create a new collection, follow these steps. We will create a `courses` colle
    In your landing page, access your collection using the `site.COLLECTION_NAME` variable:
 
    ```liquid
-   {% assign course_items = site.courses | sort: 'date' | reverse %}
+  {% assign course_items = site.courses | default: empty | sort: 'date' | reverse %}
 
    {% for item in course_items %}
      <h3>{{ item.title }}</h3>
