@@ -20,6 +20,7 @@ Some of my handwritten notes:)
 - [Greedy Algorithm](/assets/lecture_note/COMP3711/Greedy-Algorithm.pdf)
 - [Huffman Encoding](/assets/lecture_note/COMP3711/Huffman%20Encoding.pdf)
 - Dynamic Programming(1D/2D)
+- Graph
 
 
 ### COMP 4211
@@ -36,6 +37,8 @@ Some of my handwritten notes:)
 - ViT / Clip
 - Variational Autoencoders
 - Generative Adversarial Networks
+- Support Vector Machines
+- Decision Trees and Random Forests
 
 
 ### COMP 2012
@@ -60,6 +63,8 @@ Some of my handwritten notes:)
 - [COMP 2012 4.13](/assets/lecture_note/COMP2012/4.13.txt)
 - COMP 2012 4.15
 - [COMP 2012 4.20](/assets/lecture_note/COMP2012/4.20.txt)
+- COMP 2012 4.22
+
 
 
 ### COMP3211
@@ -70,7 +75,7 @@ Some of my handwritten notes:)
 - [COMP 3211 Lecture 5: Game Tree Search](/assets/lecture_note/COMP3211/Lecture%205.pdf)
 - COMP 3211 Lecture 6: MDP and Reinforcement Learning
 - COMP 3211 Lecture 7: Game Theory
-- COMP 3211 Lecture 7: Auction
+- COMP 3211 Lecture 8: Auction
 
 ### MATH 2011
 
