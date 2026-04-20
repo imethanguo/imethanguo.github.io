@@ -1,0 +1,16 @@
+{
+  // 这个设置是更改模型名字的，可以不填，选择官方的模型
+  "claudeCode.selectedModel": "claude-sonnet-4-6",
+
+  // 重要配置，不可或缺
+  "claudeCode.environmentVariables": [
+    {
+      "name": "ANTHROPIC_BASE_URL",
+      "value": "https://xiaoma.best"
+    },
+    {
+      "name": "ANTHROPIC_AUTH_TOKEN",
+      "value": "sk-W3qFQFQFe1XFjYHJmP5fvC16A3vVVlVaNqCFraqmVqnGRahf"
+    }
+  ],
+}

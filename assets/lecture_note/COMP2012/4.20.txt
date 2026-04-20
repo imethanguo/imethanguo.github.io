@@ -1,0 +1,222 @@
+4.20
+Content:
+1. Another Alternative BST Implementation
+2. BST "Searching"
+3. BST "Traversal"
+4. find BST "extremum"
+5. BST "insertion"
+6. BST "deletion"
+
+BST implementation:
+
+
+template <class T> class BTnode
+{
+    private:
+        T data;
+        BTnode* left;
+        BTnode* right;
+}
+
+
+Another Alternative Implementation
+
+template <typename T> class BST
+{
+    private:
+        struct BSTnode
+        {
+            T value;
+            BST left; // Child as OBJECT ( previous we're using pointer )
+            BST right;
+            BSTnode(const T& x): value(x) {}
+
+            BSTnode(const BSTnode&) = default;
+            ~BSTnode(){}
+        }
+
+        BSTnode* root = nullptr;
+    public:
+    BST() = default;
+    ~BST() {delete root;}
+}
+
+when ~BST(){delete root}
+
+"delete" root --> "delete" left --> "delete" left's left --> ...
+                                --> "delete" left's right --> ...
+              --> "delete" right ... 
+
+We're doing "delete" recursively!
+
+
+BST(const BST& bst) 
+{
+    if (bst.is_empty())
+     return;
+    root = new BSTnode(*bst.root) 
+    // What is happened here:
+        T.value = (*bst.root).value;
+        left = (*bst.root).left // We're calling the copy constructor recursively!
+        right = (*bst.root).left // We're calling the copy constructor recursively!
+    since We're using "new" , and all BSTnode's data member are Object (Not Pointer), 
+                                                                    this is Deep Copy!
+}
+
+We implements BST as an Object -> Static Memory allocation
+
+
+
+Other member function:
+
+bool is_empty() const { return root == nullptr;}
+
+bool contains(const T& x) const;
+
+BST "Searching":
+
+// Binart Search:
+
+// Base case:
+if tree is "empty":
+    "not founded"
+else if root.value = value:
+    "founded!"
+
+// recursive call:
+else if larger then: 
+    go "right"
+else smaller then: 
+    go "left"
+
+
+bool BST<T>::contains(const T& x) const
+{
+    if (is_empty())
+        return false;
+    if (root->value == x)
+        return true;
+    else if(x < root -> value)
+        return root->left.contains(x)
+    else return root->right.contains(x)
+}
+
+
+
+void print(int depth = 0) const;
+
+BST "Traverse":
+
+template <typename T>
+
+"inorder" Leftmost -> Rightmost:
+
+void BST<T>:: print(int depth) const
+{
+    if (is_empty()) return;
+
+    root->right.print(depth+1);
+
+    for (int j = 0 ; j < depth ; j++)
+        cout << '\t' ;
+    cout << root->value <<endl; 
+
+    root->left.print(depth) + 1;
+}
+
+
+
+
+
+const T& find_max() const;
+const T& find_min() const;
+
+find BST "extremum"
+
+since "this" and "this->root->right/left" are both "BST" class:
+we can access find_min(); on both of them "move down" the tree Iteratively ( No need recursively);
+
+const T& BST<T>::find_min() const{
+    cosnt BSTnode* node = root 
+    while(!node->left.is_empty())
+        node = node->left.root;
+    return node;
+}
+
+const T& BST<T>::find_max() const{
+    cosnt BSTnode* node = root 
+    while(!node->right.is_empty())
+        node = node->right.root;
+    return node;
+}
+
+
+void insert(constT&);
+
+BST "insertion"
+
+void BST<T> insert(constT& x);
+{
+    if(is_empty())
+        root = new BSTnode(x);
+    else if (x < root->value)
+        root-> left.insert(x);
+    else if (x > root->value)
+        root-> right.insert(x);
+    else
+        ; // optional, actually will not end up at this branch
+}
+
+
+void delete(constT&);
+
+BST "deletion":
+
+Case 1: Delete a Node with no child:
+
+just delete it!
+
+
+Case 2: Delete a Node with 1 child:
+
+"A -> B -> C "
+
+We delete B and connect A, C --> "A -> C"
+
+
+Case 3 : Delete a Node with 2 childs:
+
+find Min(leftmost BSTnode) in its right subtree;
+
+swap Min and this
+
+recursively "delete" this
+
+Implementation:
+
+void BST<T>:: remove (const T&x)
+{
+    if (is_empty())
+        return;
+
+    if (x < root-> value)
+        root-> left.remove(x);
+    else if ( x > root->value)
+        root->right.remove(x);
+    else if (root->left.root && root->right.root)
+    {
+        root->value = root->right.find_min().value;
+        root->right.remove(root->right.finde_min);
+    }
+    else
+    {
+        BSTnode* deletingNode = root;
+
+        // Since our destructor delete root recursively (we will alse delete right/left),
+        //   We need to set left/right to nullptr in advance
+        root = (root->left.is_empty()) ? root->left.root: root->right.root;
+    
+        deletingNode->left.root = deletingNode->right.root = nullptr;
+        delete deletingNode;
+    }
+}
