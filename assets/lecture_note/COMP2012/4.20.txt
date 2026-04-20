@@ -211,7 +211,11 @@ void BST<T>:: remove (const T&x)
     else
     {
         BSTnode* deletingNode = root;
+
+        // Since our destructor delete root recursively (we will alse delete right/left),
+        //   We need to set left/right to nullptr in advance
         root = (root->left.is_empty()) ? root->left.root: root->right.root;
+    
         deletingNode->left.root = deletingNode->right.root = nullptr;
         delete deletingNode;
     }
