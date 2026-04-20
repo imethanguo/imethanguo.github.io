@@ -33,7 +33,9 @@ Some of my handwritten notes:)
 - Convolutional Neural Network
 - Recurrent Neural Network
 - Transformer
-- Vision Transformers / Vision Language Models
+- ViT / Clip
+- Variational Autoencoders
+- Generative Adversarial Networks
 
 
 ### COMP 2012
@@ -56,6 +58,8 @@ Some of my handwritten notes:)
 - [COMP 2012 3.30](/assets/lecture_note/COMP2012/3.30.txt)
 - COMP 2012 4.1
 - [COMP 2012 4.13](/assets/lecture_note/COMP2012/4.13.txt)
+- COMP 2012 4.15
+- [COMP 2012 4.20](/assets/lecture_note/COMP2012/4.20.txt)
 
 
 ### COMP3211
@@ -70,5 +74,5 @@ Some of my handwritten notes:)
 ### MATH 2011
 
 - [Vector & Curves](/assets/lecture_note/MATH2011/Vector&Curves.pdf)
-- Function of Several Variables
+- [Function of Several Variables](/assets/lecture_note/MATH2011/Functions%20of%20several%20variables.pdf)
 - Multiple integration
