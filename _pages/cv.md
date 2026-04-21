@@ -35,7 +35,7 @@ Some of my handwritten notes:)
 - [Bias-Variance Decompostion](/assets/lecture_note/COMP4211/Bias-Variance_decomposition%20copy.pdf)
 - [Feed-Forward Neural Network](/assets/lecture_note/COMP4211/Feed-forward%20Neural%20Network.pdf)
 - [Fundamental Issues in Deep Learning](/assets/lecture_note/COMP4211/FundamentalIssuesinDeepLearning.pdf)
-- [Convolutional Neural Network](/Users/guoyiheng/Downloads/Convolutional%20Nerual%20Network.pdf)
+- [Convolutional Neural Network](assets/lecture_note/COMP4211/Convolutional%20Nerual%20Network.pdf)
 - [Recurrent Neural Network](/assets/lecture_note/COMP4211/Recurrent%20Neural%20Network.pdf)
 - Transformer Models
 - ViT / Clip
