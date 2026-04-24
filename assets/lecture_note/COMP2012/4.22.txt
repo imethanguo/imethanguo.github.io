@@ -1,0 +1,46 @@
+4.22
+Content:
+Hashing
+
+
+
+Hashing
+
+Hash table:
+an array of some FIXED size, containing all data items
+
+item - has -> "Key"
+
+Search is based on Keys
+
+mapping: key <---> Position in array  "Hash function"
+
+
+after mapping each item with hash table using hash function
+we can Search any items in constant time on average
+
+Remark: data items in hash table are NOT in order generally
+
+--> Hash tables do not support:
+    1. find_min / find_max
+    2. finding successor and predecessor
+    3. reporting data within a given range
+    4. listing out the data in order
+
+
+Hash function h maps the universe of keys U into the slots of
+a hash table T[0, 1, ..., m − 1].
+Several keys may be mapped to the same slot.
+
+Collision Problem: 
+Two keys may be hashed to the same slot.
+
+
+Solution:
+
+Design a good hash function that is
+fast to compute, and can minimize the number of collisions
+
+AND
+
+Design a method to resolve the collisions when they occur.
