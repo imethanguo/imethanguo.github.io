@@ -19,7 +19,7 @@ Some of my handwritten notes:)
 - [Sorting in Linear Time](/assets/lecture_note/COMP3711/Linear%20sort.pdf)
 - [Greedy Algorithm](/assets/lecture_note/COMP3711/Greedy-Algorithm.pdf)
 - [Huffman Encoding](/assets/lecture_note/COMP3711/Huffman%20Encoding.pdf)
-- Dynamic Programming
+- [Dynamic Programming](/assets/lecture_note/COMP3711/Dynamic%20Programming.pdf)
 - Graph Intro / BSF / DFS
 - Minimum Spanning Tree
 - Shortest Path
