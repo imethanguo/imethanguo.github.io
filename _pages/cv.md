@@ -28,12 +28,12 @@ Some of my handwritten notes:)
 
 ### COMP 4211
 
-- [Linear Regression](/assets/lecture_note/COMP4211/Linear_regression.pdf)
-- [Logistic Regression](/assets/lecture_note/COMP4211/Logistic_regression.pdf)
+- [Linear Regression](/assets/lecture_note/COMP4211/Linear%20regression.pdf)
+- [Logistic Regression](/assets/lecture_note/COMP4211/Logistic%20regression.pdf)
 - [Other Approaches To Classfications](/assets/lecture_note/COMP4211/Other%20approaches%20to%20classification.pdf)
-- [Bias-Variance Decompostion](/assets/lecture_note/COMP4211/Bias-Variance_decomposition%20copy.pdf)
+- [Bias-Variance Decompostion](/assets/lecture_note/COMP4211/Bias-Variance_decomposition.pdf)
 - [Feed-Forward Neural Network](/assets/lecture_note/COMP4211/Feed-forward%20Neural%20Network.pdf)
-- [Fundamental Issues in Deep Learning](/assets/lecture_note/COMP4211/FundamentalIssuesinDeepLearning.pdf)
+- [Fundamental Issues in Deep Learning](assets/lecture_note/COMP4211/Fundamental_Issues_in_Deep_Learning.pdf)
 - [Convolutional Neural Network](assets/lecture_note/COMP4211/Convolutional%20Nerual%20Network.pdf)
 - [Recurrent Neural Network](/assets/lecture_note/COMP4211/Recurrent%20Neural%20Network.pdf)
 - [Transformer Models](/assets/lecture_note/COMP4211/Transformer.pdf)
