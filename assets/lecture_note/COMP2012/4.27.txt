@@ -1,0 +1,67 @@
+4.27
+Content:
+1.Re-Hashing
+
+
+
+
+variable : name assigned to some Memory
+
+variable vs literal constant
+
+variable : addressable 
+literal constant : not addressable
+
+"x = x + 1"
+
+lvalue : its location (read - write)
+
+prvalue (pure rvalue) : its value (read only)
+
+                        lvalue
+            glvalue
+expression              xvalue
+            rvalue
+                        prvalue
+
+
+temporary object & rvalue references:
+
+T* <variable> = <dynamic object> (unnamed / holded by pointer)
+
+int* a = new int;
+char* b = new char;
+
+
+
+Temporary objects/values 
+are another kind of unnamed objects/values 
+created automatically on stack
+
+during:
+
+1. Const reference initialization
+
+const int& c = 5;
+
+X::X(int n):data(n){} // conversion constructor
+X::X(const X& other){} // copy constructor
+
+const X& objref(10); 
+--> " alias of const X obj " = "int"
+
+First: temporary Object = X(int)
+Then : const X& obj = temporary object
+// Output:
+
+X(int)
+X(const X&)
+--- end of main ---
+~X() // The temporary object Have not been deleted right away
+    // It Lives Longer!
+
+Const reference prolarge temporary object's Life period
+
+
+2. argument passing ( return by value)
+
