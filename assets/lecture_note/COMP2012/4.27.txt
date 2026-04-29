@@ -1,7 +1,57 @@
 4.27
 Content:
-1.Re-Hashing
+1. Double Hashing
+2. LazyDeletion
+3. Re-Hashing
+4. Temporary object & rvalue references:
 
+
+
+3. Double Hashing
+
+f(i) = i * hash2(k)
+
+hi(k) = (hash(k) + f(i)) mod m
+      = (hash(k) + i* hash2(k)) mod m
+
+e.g. hash2(k) = R − (k mod R)
+
+"Let key itself decide the stride!"
+
+Remarks:
+
+hash2( ) must never evaluate to zero.
+
+For any key k, hash2(k) must be relatively prime to the table
+size m. 
+Otherwise, we will only be able to examine a fraction
+of the table entries
+
+One solution is to make m prime, and choose R to be a prime number smaller than m, and set
+hash2(k) = R − (k mod R)
+
+
+
+Deletion in Open Addressing:
+
+if directly delete, then probing sequence will be broken
+
+Lazy deletion:
+
+add an extra field to each table entry: 
+{EMPTY,ACTIVE,DELETED}
+
+
+Re-hashing:
+
+Load factor a = N/m where N is number of actually hashed items in hash table
+
+a becomes larger when hash table has more items --> hashing is slower
+
+when a becomes large (e.g. hits a threshold): 
+double the table size -> re-hash all items with a new hash function
+
+Expensive! Usually happens infrequently if hash table is well designed
 
 
 

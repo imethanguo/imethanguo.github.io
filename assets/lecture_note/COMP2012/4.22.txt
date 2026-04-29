@@ -1,46 +1,208 @@
 4.22
 Content:
-Hashing
+1. Hashing
+2. Hash function
+3. How to deal with String Keys
+4. Collision Problem
+5. Linear Probing / Quadratic Probing
 
 
 
 Hashing
 
 Hash table:
-an array of some FIXED size, containing all data items
+An Array of some FIXED size, containing all data items
 
-item - has -> "Key"
+item -- has --> "Key" : Search is based on Keys
 
-Search is based on Keys
-
-mapping: key <---> Position in array  "Hash function"
+"Hash function": Mapping: key <---> Position in array  
 
 
-after mapping each item with hash table using hash function
-we can Search any items in constant time on average
+Hush table support: 1. Search 2. Insertion 3. Deletion
+
+Running time: O(1) on average (constant time)
+
+Implememtation of hash table: "Hashing"
+
 
 Remark: data items in hash table are NOT in order generally
 
---> Hash tables do not support:
+Hence,  Hash tables do not support:
     1. find_min / find_max
     2. finding successor and predecessor
     3. reporting data within a given range
     4. listing out the data in order
 
+Unrealistic Solution:
 
-Hash function h maps the universe of keys U into the slots of
+"One Key ==> One Slot"
+
+Universe of keys U is mapped into the slots of
 a hash table T[0, 1, ..., m − 1].
-Several keys may be mapped to the same slot.
+
+T[k] = item with key k
+(if no data with key k then T[k] = nil)
+
+Problem: if U is too large for number of items --> Too many table slots are wasted!
+
+
+
+Hush function:
+
+"Several Key ==> One Slot"
+
+Mapping: U ==> T[0,1,...,m-1] ( m << |U| )
+Remark: Several keys may be mapped to the same slot!
+
+ki =="Hash function h()"==> h(ki) : Hash value
+
+item with key ki are stored in T[h(ki)]
+
 
 Collision Problem: 
 Two keys may be hashed to the same slot.
 
+"It will always happen! Since #data > Size of Hash Table!"
 
 Solution:
 
-Design a good hash function that is
-fast to compute, and can minimize the number of collisions
+1. Design a good hash function that is fast to compute, 
+            and can minimize the number of collisions
 
-AND
+2. Design a method to resolve the collisions when they occur.
 
-Design a method to resolve the collisions when they occur.
+
+Hash Function Design:
+
+simple strategy : h(k) = k mod m  "fast"
+
+remark: certain m should be avoided : m != 2^p
+(if m = 2^p , then "k mod m" is just lower p bit of k, 
+ --> h(k) does not depend on all bits)
+
+Hash function h(k) must depend on all the bits!
+
+==> m is better to be a prime number
+
+
+
+How to deal with String Keys:
+
+Method 1 : Add up each letter's Hash value
+
+Problem:
+
+if add up each letter's hash value: then hash("abc") = hash("cba")
+
+if table size too large then keys do not distribute well
+
+
+Method 2:
+
+h(key) = (key[0] + 27 * key[1] + 27^2 * key[2]) mod m
+
+"Using first three characters"
+
+Problem: letters in english word are not random distributed:
+
+"apple" "application" "appendix" ... has same hash value!
+
+==> only ~28% of hash table has items, distribution is not good
+
+
+Method 3:
+
+h(key) = (37^(L-1) * key[0] + 37^(L-2) * key[1] 
+        +37^(L-3) * key[3] ... + key[L-1]) mod m
+    where L is the length of a key
+
+This hash function involves all characters in the key
+==>  hash value are expected to distribute well
+
+
+
+Collision Hashing:
+
+
+Method 1: Seperate Chaining
+
+Key: {1,4,9,16,25....} (squared numbers)
+Hash function: h(k) = k mod 10
+
+hash table: table of linked list 
+
+items with same hash value are chained on a seperate linked list
+
+Insertion: compute h(k) --> append in linked list / create new linked listing
+
+Deletion: compute h(k) --> find T[h(k)] list --> using k to find item to delete
+
+Disadvantages: Memory allocation / de-allocation slow down the process
+
+Advantages: 1. If hash function works well then constant time Insertion/Search/Deletion
+            2. Deletion is easy
+
+
+Method 2: Open Addressing
+
+Only hash table (NO seperate chaining), Each slot stores only one item
+
+if collision happens : relocates key k to another slot
+
+Two issues: 1. what is the relocation scheme? 2. how to search k later (since we have relocated k)
+
+
+Three common strategies:
+
+1. linear probing
+
+k --> h0(k)
+
+if T[h0(k)] is empty : insert here!
+
+if not:
+
+hi(k) = (hash(k) + i) mod m
+      = ( h0(k) + i ) mod m ( i = 1,2,3,...)
+
+if eventually no empty slots (full) : report an error
+
+"Moving to the next slot until one is empty"
+
+Disadvantages:
+
+if h(k) falls into a "Cluster" : 
+e.x. 2,3,4,5th slots is occupied and h(k) = 2;
+then insertion is slow and will be worsen in the future!
+
+Cluster may be merged in the future -> performance deteriorate drastically!
+
+
+
+2. Quadratic Probing:
+
+f(i) = i^2
+
+hi(k) = (hash(k) + i^2) mod m = (hash(k) + f(i)) mod m 
+    
+
+Two keys with different home positions will have different
+probe sequences.
+
+If the table size is prime, then a new key can always be
+inserted if the table is at least half empty (can be proved)
+
+
+Secondary clustering:
+
+Keys that hashed to the same home position will probe the same alternative cells!
+
+if h(k1) = h(k2) then: h1(k1) = h1(k2) , h2(k1) = h2(k2).....
+
+
+To avoid secondary clustering, the probe sequence need to be
+a function of the original key value, not the home position
+
+How? Double Hashing
+
+
