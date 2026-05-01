@@ -23,7 +23,6 @@ Some of my handwritten notes:)
 - Graph Intro / BSF / DFS / Topological Sort
 - Minimum Spanning Tree
 - Shortest Path
-- Maximum Flow
 
 
 ### COMP 4211
@@ -83,7 +82,7 @@ Some of my handwritten notes:)
 - [COMP 3211 Lecture 5: Game Tree Search](/assets/lecture_note/COMP3211/Lecture%205.pdf)
 - [COMP 3211 Lecture 6: MDP and Reinforcement Learning](/assets/lecture_note/COMP3211/Lecture%206.pdf)
 - [COMP 3211 Lecture 7: Game Theory](/assets/lecture_note/COMP3211/Lecture%207.pdf)
-- COMP 3211 Lecture 8: Auction
+- COMP 3211 Lecture 8: Auctions
 - COMP 3211 Lecture 9: Knowledge Representation and Reasoning
 - COMP 3211 Lecture 10: Reasoning under Uncertainty
  
