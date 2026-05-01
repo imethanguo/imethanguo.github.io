@@ -1,34 +1,9 @@
 4.27
 Content:
-1. Double Hashing
-2. LazyDeletion
+
+2. Lazy Deletion
 3. Re-Hashing
 4. Temporary object & rvalue references:
-
-
-
-3. Double Hashing
-
-f(i) = i * hash2(k)
-
-hi(k) = (hash(k) + f(i)) mod m
-      = (hash(k) + i* hash2(k)) mod m
-
-e.g. hash2(k) = R − (k mod R)
-
-"Let key itself decide the stride!"
-
-Remarks:
-
-hash2( ) must never evaluate to zero.
-
-For any key k, hash2(k) must be relatively prime to the table
-size m. 
-Otherwise, we will only be able to examine a fraction
-of the table entries
-
-One solution is to make m prime, and choose R to be a prime number smaller than m, and set
-hash2(k) = R − (k mod R)
 
 
 
@@ -55,18 +30,22 @@ Expensive! Usually happens infrequently if hash table is well designed
 
 
 
-variable : name assigned to some Memory
+
+rvalue Reference and Move Semantics:
+
+
+variable : name assigned to some Memory storage
 
 variable vs literal constant
 
-variable : addressable 
-literal constant : not addressable
+"variable has address, while literal constant not."
 
 "x = x + 1"
 
-lvalue : its location (read - write)
+lvalue : its location (read-write)
+prvalue: its value (read-only)
 
-prvalue (pure rvalue) : its value (read only)
+
 
                         lvalue
             glvalue
@@ -75,20 +54,37 @@ expression              xvalue
                         prvalue
 
 
-temporary object & rvalue references:
+glvalue: "named value" / value has "identity
 
-T* <variable> = <dynamic object> (unnamed / holded by pointer)
+rvalue: something that can be moved
+
+lvalue: has identity & cannot be moved
+
+prvalue: something without identity & can be moved
+
+xvalue: something has identity & can be moved
+
+
+
+Temporary object & rvalue references:
+
+T* <variable> = <dynamic object> (unnamed)
 
 int* a = new int;
 char* b = new char;
+...
+
+accessed by pointer -> if lost pointer then we lost the object
 
 
+Temporary objects/values are another kind of unnamed objects/values 
+created automatically on stack during:
 
-Temporary objects/values 
-are another kind of unnamed objects/values 
-created automatically on stack
+TO1: cosnt reference initialization
+TO2: argument passing (type conversion)
+TO3: function returned value (by copying)
+TO4: evaluation of expressions (result of sub-expressions)
 
-during:
 
 1. Const reference initialization
 
@@ -97,21 +93,72 @@ const int& c = 5;
 X::X(int n):data(n){} // conversion constructor
 X::X(const X& other){} // copy constructor
 
-const X& objref(10); 
+const X& objref {10}; 
 --> " alias of const X obj " = "int"
 
 First: temporary Object = X(int)
 Then : const X& obj = temporary object
-// Output:
 
+// Output:
+-- start of main --
 X(int)
 X(const X&)
 --- end of main ---
 ~X() // The temporary object Have not been deleted right away
     // It Lives Longer!
 
-Const reference prolarge temporary object's Life period
+->Const reference prolong a temporary object's Life period!
+
+2. Argument passing (type conversion)
+
+void fun(X xobj){}
+
+int main(){
+    int b = 10;
+    fun(b); // Here, a temporary object X(10) is created!
+}
+
+// Output:
+X(int) // Temporary Object
+X(const X&) // Pass by value & no copy elision
+fun(10)
+~X()
+~X()
 
 
-2. argument passing ( return by value)
 
+3. function returned value (by copying)
+
+int square (int x){return x*x;} // (x*x) is a temporary object
+
+X fun_rbv(const X& obj){
+    cout << "fun_rbv(const X&)- "<<&obj<<endl;
+    return (obj); // Return By Value -> Temporary Object
+}
+
+X result = fun_rbv(obj);
+// Output: 
+X(const X&)
+~X() // Deletion of temporary Object!
+
+
+4.evaluation of expressions (result of sub-expressions)
+
+result = (a+b) * (c+d)
+
+--> (a+b) and (c+d)'s result are temporary objects!
+
+X operator+(const X& a ,const X& b){
+    return (X(a.data + b.data)) // Create a temp object
+}
+
+
+X obj1(10),obj2(20);
+obj1 + obj2;
+
+output:
+
+X(int) // X(a.data + b.data)
+X(const X&) // Return Value
+~X()
+~X()

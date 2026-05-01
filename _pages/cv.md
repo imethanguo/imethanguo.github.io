@@ -61,13 +61,13 @@ Some of my handwritten notes:)
 - [COMP 2012 3.23](/assets/lecture_note/COMP2012/3.23.txt)
 - [COMP 2012 3.25](/assets/lecture_note/COMP2012/3.25.txt)
 - [COMP 2012 3.30](/assets/lecture_note/COMP2012/3.30.txt)
-- COMP 2012 4.1
+- [COMP 2012 4.1](/assets/lecture_note/COMP2012/4.1.txt)
 - [COMP 2012 4.13](/assets/lecture_note/COMP2012/4.13.txt)
-- COMP 2012 4.15
+- [COMP 2012 4.15](/assets/lecture_note/COMP2012/4.15.txt)
 - [COMP 2012 4.20](/assets/lecture_note/COMP2012/4.20.txt)
 - [COMP 2012 4.22](/assets/lecture_note/COMP2012/4.22.txt)
 - [COMP 2012 4.27](/assets/lecture_note/COMP2012/4.27.txt)
-- COMP 2012 4.29
+- [COMP 2012 4.29](/assets/lecture_note/COMP2012/4.29.txt)
 - COMP 2012 5.4
 - COMP 2012 5.6
 

@@ -1,0 +1,173 @@
+4.1
+Content:
+1. Assignment Operator
+2. Operator[]
+3. Increment Operator
+4. Friend Functions & Classes
+
+
+
+Remark:
+
+template <typename T,int NUM>
+
+int size = 5;
+A<int,size> int_array // Error! 
+
+The value of 'size" is not usable in a constant expression
+
+if const int size = 5; then Okay
+
+--> non-type parameter must be a const expression!
+
+
+implememt operator as global function
+then: 10 + a / a + 10 is both Okay
+if not, then 10 + a is an error.
+
+
+Assignment Operator
+
+if the object "owns" a dynamic data member:
+
+class Word{
+    private:
+    char* str; // Dynamic data member
+}
+
+if We're using default Assignment operator:
+
+Word ship("titanic");
+Word song("My heart");
+song = ship; // Shallow copy!
+
+// End of main: Double delete!
+        also: the dynamic data member "My heart" has no pointer points to
+                --> Undefined Behaviour
+
+Implementing Assignment Operator:
+
+Word& operator=(const Word& w){
+    if (this != &w){
+        delete[] str; // release the original data member;
+        str = new char[strlen(w.str)+1];
+        strcpy(str,w.str); // Deep copy
+        freq = w.freq;
+    }
+    return (*this)
+}
+
+
+Operator[]:
+
+double& operator[](int i){
+    switch(i){
+        case 1: return x;
+        case 2: return y;
+        default: cerr << "Wrong Index" <<endl;
+    }
+    return x; // dummy returnment
+}
+
+// read only function
+void fun(const Vector& a){
+    cout << a << endl;
+    cout << a[0] << endl; // a[0] is a mutator
+                          // since read-only function, Compilation Error!
+
+    // Need another accessor Version!
+}
+
+const double& operator[](int i) const{} // Only allow reading 
+
+
+Increment Operator (Operator++):
+
+Pre-Increment:
+Vector& operator++();
+
+"++v" <==> "v.++()"
+
+Post-Increment:
+Vector operator++(int); // "int" is a dummy parameter
+"v++" <==> "v.++(0)"
+
+if we do not use this dummy parameter then compiler cannot tell which one to use
+--> operator must have different argument list
+
+Remark: 
+if we want to implememt pre-increment operator then we MUST write:
+Vector& operator++(); instead of Vector operator++(int);
+
+vice-versa if we want to implememt post-increment operator:
+Vector& operator++(int); instead of Vector operator++();
+
+"v++" == "v.++(0)"
+
+
+Summary of Operator:
+
+A member operator function has an implicit first argument of the class
+
+if the left operand of an operator must be an object of other classes
+then it must be non-member(global) function (e.g. operator<<)
+
+
+Friend functions or classes:
+
+Output operator:
+
+ostream& Vector::operator<<(ostream& os){}
+
+// this is a member function so we can access class's data member
+
+If we implememt this as Globla function?
+
+class Vector
+{
+    friend ostream& operator<< (ostream& os, const Vector& a); // friend declarion
+}
+
+
+ostream& operator<< (ostream& os, const Vector& a){
+    return (os<< a.x << a.y <<endl;)
+} // This is stil a Global Function! but it can access Vector's data member
+
+
+Member access qualifiers (private/public) are irrelevant to friend functions
+--> friend functions can access BOTH public and private data member!
+
+
+All member functions of an X’s friend class can access all data
+members of X.
+
+
+
+Friendship is not symmetric : if A is B's friend , B is not necessarily A's friend!
+
+
+class B{
+    friend Class A;
+    public:
+        void fun(A& a){a.data = 1;} // ERROR! We currently do not know what data members A has!
+        // instead:
+        void fun(A& a); // Only declaration
+}
+
+class A{
+    private:
+    int data;
+}
+
+void B::fun(A& a){a.data = 1;} // Okay! Implememt it aftes class A's declaration
+
+
+
+Friendship is not transitive:
+
+A-friend->B-friend->C 
+then C is not necessarily A's friend!
+
+Friendship is not inherited:
+
+Your parent's friends is not necessarily your friends!

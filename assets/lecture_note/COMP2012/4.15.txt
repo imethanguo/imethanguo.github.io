@@ -1,0 +1,170 @@
+4.15
+Content:
+1. Use of Function Pointer/Array
+2. Analysis of Algorithms
+3. Tree Terminologies
+4. Binary Tree
+5. Binary Search Tree
+
+
+Remark:
+auto f = [](int x,int y){return x + y} // Okay
+double(*g)(int,int) = [](int x,int y){return x + y;}; // return type is not the same!
+                                                // warning: converting 'int' to 'double' in return statement
+                                                // This is not a Compilation Error!
+
+Use of Function Pointer:
+
+int f( int (*fptr)(int,int),int a ,int b){
+    return fptr(a,b); 
+}
+
+then we can use function as parameter:
+
+f(fun1,a,b); // Okay
+f(fun2,a,b); // Okay
+
+
+Function pointer array:
+
+double (*f[])(double,double)
+    =  {add, sub, multi,div}
+
+f[2](x,y) // Okay
+
+
+Nested Lambda --> Notice parameter passing type!
+
+
+Data Structures:
+
+
+Analyzing an algorithm allows us to predict the resources that it requires:
+memory / communication bandwidth / computation time
+
+Big-O : Upper Bound
+
+
+Linked list: 
+Search: Worst case: O(n) 
+
+Binary (Search) Tree:
+Search : O(logn)
+
+Tree: a collection of nodes connected by edges
+base case: T is empty
+recursive definition: if not empty, a Tree consists of:
+    a root not r , and zero or more non-empty Sub-trees: T1,T2.....
+
+Root : the only node with no parent
+
+Parent and child : every node except root has only 1 parent
+                    a node can have zero or more children
+
+Leaves: nodes with no children
+
+Siblings: nodes with the same parent
+
+Path from node n1 to nk : a sequence of nodes {n1, n2, . . . , nk }
+such that ni is the parent of ni+1 for 1 ≤ i ≤ k − 1.
+
+Length of a path
+– number of edges on the path
+
+Depth of a node
+– length of the unique path from the root to that node
+
+Height of a node
+– length of the longest path from that node to a leaf
+– all leaves are at height 0
+
+Height of a tree = height of the root = depth of the deepest leaf
+
+Ancestor and descendant: If there is a path from n1 to n2
+– n1 is an ancestor of n2
+– n2 is a descendant of n1
+– if n1 != n2,then: proper ancestor and proper descendant
+
+
+Binary Tree:
+Tree which nodes can have at MOST 2 children
+
+Height of an binary tree with N node is smaller than n
+
+Best case: Well-Balanced Tree: H = O(logN)
+Worst case: (N-1)
+
+
+Implememtation of an binary tree:
+
+template <class T> class BTnode
+{
+    public:
+    BTnode(const T& x, BTnode* L= nullptr, BTnode* R = nullptr):data(x), left(L), right(R){}
+    ~BTnode(
+        delete left;
+        delete right;
+    )
+    const T& get_data() const { return data; }
+    BTnode* get_left() const( return left;)
+    BTnode* get_right() const (return right;)
+    
+    private:
+        T data;
+        BTnode* left;
+        BTnode* right;
+
+}
+
+Traversal:
+
+Inorder:
+"left -> right"
+
+void btree_inorder(BTnode<T>* root), void (*action) ((BTnode<T>* r))
+{
+    if (root){
+        btree_inorder(root->get_left(),action)
+        action(root);
+        btree_inorder(root->get_right(),action)
+    }
+}
+
+Pre-order:
+"root -> left sub-tree -> right sub-tree"
+
+void btree_preorder(BTnode<T>* root), void (*action) ((BTnode<T>* r))
+{
+    if (root){
+        action(root);
+        btree_preorder(root->get_left(),action)
+        btree_preorder(root->get_right(),action)
+    }
+}
+
+Post-order:
+"left sub-tree -> right sub-tree -> root "
+
+
+void btree_postorder(BTnode<T>* root), void (*action) ((BTnode<T>* r))
+{
+    if (root){
+        action(root);
+        btree_postorder(root->get_left(),action)
+        btree_postorder(root->get_right(),action)
+    }
+} 
+
+Binary Search Tree:
+
+A Binary tree with following properties:
+
+For every node x:
+
+All the keys in its left sub-tree are smaller than the key value in node x.
+All the keys in its right sub-tree are larger than the key value in node x.
+
+The same set of values may be stored in different BSTs.
+
+Average depth of a node on a BST is O(log N).
+Maximum depth of a node on a BST is O(N).

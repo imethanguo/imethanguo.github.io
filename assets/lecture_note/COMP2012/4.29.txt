@@ -1,0 +1,223 @@
+4.29
+Content:
+1. Double hashing
+2. Temporary Object Examples
+3. rvalue Reference
+
+
+
+
+Double Hashing
+
+f(i) = i * hash2(k)
+
+hi(k) = (hash(k) + f(i)) mod m
+      = (hash(k) + i* hash2(k)) mod m
+
+e.g. hash2(k) = R − (k mod R)
+
+"Let key itself decide the stride!"
+
+Remarks:
+
+hash2( ) must never evaluate to zero.
+
+For any key k, hash2(k) must be relatively prime to the table
+size m. 
+Otherwise, we will only be able to examine a fraction
+of the table entries
+
+One solution is to make m prime, and choose R to be a prime number smaller than m, and set
+hash2(k) = R − (k mod R)
+
+Example 1:
+
+int square(int x) { 
+    return x * x; 
+}
+
+void cbv(int x) { 
+    cout << "call-by-value: " << x << endl; 
+}
+
+void cbr(int& x) { 
+    cout << "call-by-ref: " << x << endl; 
+}
+
+void cbcr(const int& x) { 
+    cout << "call-by-const-ref: " << x << endl; 
+}
+
+int main() {
+    int a = 3;
+    int& b = 4;        // Error! cannot bind literal object to a non-const reference
+    const int& c = 5;  // TO1: const ref initialization
+    int d = square(3); // TO3: function returned value
+    int e = a + c + d; // TO4: result of sub-expression
+
+    cbv(a);   // OK: int x = a
+    cbr(a);   // OK: int& x = a
+    cbr(8);   // Error: int& x = 8
+    cbcr(8);  // TO1: const int& x = 8 
+
+    return 0;
+}
+
+
+class Word
+{
+private:
+    int freq = 0;
+    char* str = nullptr;
+
+public:
+    Word() { cout << "default constructor" << endl; }
+
+    Word(const char* s, int f = 1) : freq(f), str(new char [strlen(s)+1])
+    { strcpy(str, s); cout << "conversion: "; print(); }
+
+    Word(const Word& w) : freq(w.freq+1), str(new char [strlen(w.str)+1])
+    { strcpy(str, w.str); cout << "copy: "; print(); }
+
+    ~Word() { cout << "destructor: "; print(); delete [] str; }
+
+    void print() const
+    { cout << (str ? str : "null") << " ; " << freq << endl; }
+
+    Word operator+(const Word& w) const
+    {
+        cout << "\n~~ " << str << " + " << w.str << " ~~" << endl;
+        Word x; // Which constructor? → default constructor
+
+        x.freq = freq + w.freq;
+        x.str = new char [strlen(str) + strlen(w.str) + 1];
+        strcpy(x.str, str);
+        strcat(x.str, w.str);
+        return x; // How is x returned? → copy constructor (then destructor for x)
+    }
+
+    Word to_upper_case() const
+    {
+        cout << "\n-- to_upper_case(): " << str << " --" << endl;
+        Word x(*this); // Which constructor? → copy constructor
+
+        for (char* p = x.str; *p != '\0'; p++)
+            *p += 'A' - 'a';
+
+        return x; // How is x returned? → copy constructor (then destructor for x)
+    }
+};
+
+void print_word(const Word& x)
+{
+    cout << "<<<\n"; x.print(); cout << ">>>\n";
+}
+
+
+
+int main()
+{
+    const Word& w1 = "batman"; // TO1: const ref initialization
+
+    // Output:
+
+    conversion: batman ; 1
+     
+    w1.print();
+
+    // Output: batman ; 1
+
+    print_word("superman"); // TO2: argument passing
+
+    // Output:
+    conversion: superman ; 1
+    superman ; 1
+    destructor: superman ; 1
+
+    Word w2 = w1.to_upper_case(); // TO3: function returned value
+
+    // Output:
+    
+    copy: batman ; 2
+    copy: BATMAN ; 3 // Return by value -> temporary object
+    destructor: BATMAN; 2 // End of function scope: delete x
+    copy: BATMAN; 4 // Copy construct w2
+    destructor: BATMAN; 3 // deletion of temp obj
+
+
+    w2.print();
+
+    //  Output:
+    BATMAN ; 4
+
+    ((w1 + " or ") + w2).print(); // TO4: result of sub-expression
+
+    // Output:
+
+    conversion: or ; 1 // initialization of temp object "or"
+
+    --- batman + or ---
+    default constructor // "Word x;" // freq = 1 + 1 = 2
+    copy:  batman or ; 3 // Retrun By value -> temporary object
+    destructor: batman or ; 2// End of scope, delete x
+
+    --- batman or + w2 ---
+    default constructor // "Word x;" // freq = 3 + 4 = 7
+    copy: batman or BATMAN ; 8 // Retrun By value -> temporary object
+    destructor: batman or BATMAN; 7 // End of scope, delete x
+
+    batman or BATMAN; 8 // ".print"
+
+    destructor: batman or BATMAN; 8 
+    desturctor: batman or ; 3
+    desturctor: or ; 1 // End of statement, delete all temporary object
+
+    cout << "\n*** It's all destructions now ***" << endl;
+
+    // Output: *** It's all destructions now ***
+
+    desturctor: BATMAN ; 4
+    destructor: batman ; 1
+
+    return 0;
+}
+
+
+Remark: The "lifetime" of a temporary obj is at the end of "the expression that create it"
+Unless it is held by a const reference (prolong its lifetime)
+
+A temporary object held by a const reference dies as its reference variable goes out of scope, 
+BUT if the reference is a function parameter, it will persist until the completion of the
+full expression containing the function call.
+
+
+rvalue Reference
+
+T&& <variable> = <temporary object>;
+
+"an alias of a temporary object"
+
+int&& b; // Error! must be initialized, same as int&
+
+int&& c = a; // Error! cannot bind to a lvalue!
+
+int&& d = 5; // Okay TO1
+
+cout<< d << endl; // Okay
+
+int&& e = square(5); // Okay, TO3
+
+d = e = 10; // Okay
+
+Remarks:
+
+The lifetime of a temporary object is at the end of the
+expression that creates it unless it is held by an rvalue/const
+reference. (rvalue reference can also prolong its lifetime!)
+
+once bound, it cannot be re-bound to another temporary object
+
+Remarks:
+
+int&& a = 5;
+int&& b = a; // Error! "a" itself is treated as an lvalue!
