@@ -20,7 +20,7 @@ Some of my handwritten notes:)
 - [Greedy Algorithm](/assets/lecture_note/COMP3711/Greedy-Algorithm.pdf)
 - [Huffman Encoding](/assets/lecture_note/COMP3711/Huffman%20Encoding.pdf)
 - [Dynamic Programming](/assets/lecture_note/COMP3711/Dynamic%20Programming.pdf)
-- Graph Intro / BSF / DFS / Topological Sort
+- [Graph Intro / BSF / DFS / Topological Sort](/assets/lecture_note/COMP3711/GraphIntro_BFS_DFS_TopoSort.pdf)
 - Minimum Spanning Tree
 - Shortest Path
 
