@@ -31,20 +31,72 @@ default constructor
 after ref
 desturctor // Being desturct at the end of main!
 
+const X A{2};
+X a{};
+
+const X& cref = X{} ; // Okay, accept temporary object
+const X& cref2 = A; // OK , A -> lvalue -> bound to const ref
+
+X&& rref1 = a; // NO, a is a lvalue!
+X&& rref2 = X{}; // OK accept temporary object
+
+const X&& crref = X{10}; // OK
+const X&& crref1 = a; // NO
+const X&& crref2 = A; // NO rvalue reference can only bound to temporary object! no matter const or non-const!
 
 
-X&& xrref3 = A; // NO
-const X& xcref = A; // OK
-const X&& xcrref = A; // NO
 
 
 pass-by-rvalue reference
 
+void funX(X& obj) {cout <<"funX(X&)"<<endl;}
+void funX(const X& obj){cout <<"funX(const X&)"<<endl;}
 void funX(X&& obj) {cout <<"funX(X&&)"<<endl;}
 
-X obj(100);
-funX(obj) // Error!
-funX(X(100))// Okay,the function only accept temporary object
+Example 1:
+X a(10);
+funX(a);
+// Output : funX(X&)
+// since non-const non-temporary object, calling the simple one
+
+Example 2:
+funX(100); // invoke conversion constructor : 100 -> temporary object: X(100)
+           // Passing by rvalue reference
+
+// Output: funX(X&&)
+
+Example 3:
+X&& xrref = X(99);
+funX(xrref) // xrref is treated as a "lvalue"
+
+// Output: funX(X&)
+
+Example 4:
+funX(X(10)); // TO: X(10)
+
+// Output: funX(X&&)
+
+Example 5:
+
+const X a;
+funX(a); // Output: funX(const X&)
+
+
+
+X& operator=(const X& other){}
+
+X&& rr= X{100};
+rr.print();
+rr = X{200}; // OK! x.data changed,  but &x is not changed! (just like X&)
+rr.print();
+
+if const reference:
+
+const X& r = X{100};
+r = X{200}; // NO! since it is const!
+
+rvalue reference: We can change(modify/manage) the value of temporary object!
+
 
 
 void print_word(const Word& w) { 
@@ -140,6 +192,161 @@ int main()
 
 Move constructor:
 
-"steal" temporary object's resources
+move trick with rvalue references
+
+X obj { X{100} };
+
+// TO : X{100} , will be destroyed soon 
+
+if X has dynamic data member: 
+
+X(100) // "new" allocation
+X(const X&) "new" allocation (deep copy)
+~X() // "delete"
+
+Too many memory allocation/de-allocation! 
+
+Why not:
+
+data = TO.data; // Why not shallow copy since TO will be destroyed
+TO.data = nullptr; // Set TO.data to nullptr to prevent double delete!
+
+"We're stealing TO's resources!"
+
+==> Move constructor!
+
+X(X&& TO){
+    data = TO.data;
+    TO.data = nullptr;
+} // Can only accept temporary object!
+
+// More efficient!
+
+Example:
+
+class Word
+{
+private:
+    int freq = 0;
+    char* str = nullptr;
+public:
+    Word() { cout << "default constructor" << endl; }
+
+    Word(const char* s, int f = 1) : freq(f), str(new char [strlen(s)+1])
+    { strcpy(str, s); cout << "conversion: "; print(); }
+
+    Word(const Word& w) : freq(w.freq+1), str(new char [strlen(w.str)+1])
+    { strcpy(str, w.str); cout << "copy: "; print(); }
+
+// Move constructor
+    Word(Word&& w) : freq(w.freq), str(w.str) 
+    { w.freq = 0; w.str = nullptr; cout << "move: "; print(); }
+
+    ~Word() { cout << "destructor: "; print(); delete [] str; }
+    
+    Word to_upper_case() const
+    {
+        Word x(*this);
+        for (char* p = x.str; *p != '\0'; p++) 
+            *p += 'A' - 'a';
+        return x;
+    }
+    
+    void print() const
+    { cout << (str ? str : "null") << " ; " << freq << endl; }
 
 
+
+
+ // Copy assignment
+    Word& operator=(const Word& w) { 
+        if (this != &w) { // No assignment for the same Word
+            delete [] str;
+            str = new char [strlen(w.str)+1];
+            freq = w.freq+1; 
+            strcpy(str, w.str);
+            cout << "copy assignment: "; print();
+        }
+        return *this;
+    }
+
+// Move assignment
+    Word& operator=(Word&& w) { 
+        if (this != &w) { // No assignment for the same Word
+            delete [] str;
+            freq = w.freq; 
+            str = w.str;
+            w.freq = 0; 
+            w.str = nullptr;
+            cout << "move assignment: "; print();
+        }
+        return *this;
+    }
+};
+
+
+
+void print_word(const Word& w) { cout << "print const Word&: "; w.print(); }
+void print_word(Word&& w) { cout << "print Word&&: "; w.print(); }
+
+int main()
+{
+    cout << "*** Copy Semantics ***" << endl;
+    Word book {"batman"}; // conversion: batman ; 1
+    Word movie(book); // copy : batman ; 2
+    Word song("imagine")// conversion : imagine ; 1
+    movie = song; // copy assignment: 
+    print_word(book); cout << endl;
+
+    cout << "*** Move Semantics ***" << endl;
+    Word novel {"outliers"}; cout << endl; // conversion: outliers ; 1
+
+    Word novel2 = novel.to_upper_case(); // move construction
+    // Output:
+
+    copy : outliers ; 2
+    move : OUTLIERS ; 2 // Move construct! (Return x)
+    destructor: null ; 0
+    move : OUTLIERS ; 2 // Move construct! (novel2 = TO)
+    desturct: null ; 0
+    cout << endl; novel.print(); novel2.print(); cout << endl;
+
+
+
+    Word band = "Beatles"; cout << endl; // move construction
+    // conversion: Beatles ; 1
+    // move: Beatles ; 1
+    // desturctor: null ; 0
+
+    band = "Eagles"; cout << endl; // move assignment
+
+    // conversion: Eagles; 1
+    // move assignment: Eagles; 1
+    // destructor: null ; 0
+    
+    cout << "*** It’s all destructions now ***" << endl;
+    return 0;
+}
+
+
+
+std::move --> static casting
+
+class Word {
+    private
+        data X;
+    public:
+        Word(Word&& other):data(other.data){}
+}
+
+
+int main(){
+    Word x = 10;
+    // X(10)
+    // X(const X&) // Here, X is not using move constructor! since other.data is not treated as rvalue ref
+    // Word(Word&&)
+}
+
+==> Using std::move():
+
+Word(Word&& other):data(std::move(other.data)){}
