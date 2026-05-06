@@ -68,7 +68,7 @@ Some of my handwritten notes:)
 - [COMP 2012 4.22](/assets/lecture_note/COMP2012/4.22.txt)
 - [COMP 2012 4.27](/assets/lecture_note/COMP2012/4.27.txt)
 - [COMP 2012 4.29](/assets/lecture_note/COMP2012/4.29.txt)
-- COMP 2012 5.4
+- [COMP 2012 5.4](/assets/lecture_note/COMP2012/5.4.txt)
 - COMP 2012 5.6
 
 
