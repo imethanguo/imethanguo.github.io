@@ -1,0 +1,130 @@
+5.6
+content:
+1. Some Examples of Move Semantics
+
+
+X fun(const X& obj){return obj;}
+
+X fun(X&& obj){return obj;}
+
+X fun(){ X x {100}; return x; }
+
+int main(){
+    X newObj = fun ( X{10}); 
+    // Output:
+        X(int)
+        fun(X&&)
+        X(const X&) //return by value using copy costructor
+        X(X&&)
+
+    X newObj2 = fun();
+    // Output;
+        fun()
+        X(X&&) // if return a local variable-> using move constructor
+        X(X&&)
+  
+}
+
+
+
+class Word_Pair
+{
+private:
+    Word w1; 
+    Word w2;
+
+public:
+    // Pass by const&, construct by copying
+    Word_Pair(const Word& a, const Word& b) : w1(a), w2(b)
+    { 
+        cout << "\n-- Copy inputs --\n"; 
+        a.print(); 
+        b.print(); 
+    }
+
+    // Pass by &, construct by moving
+    Word_Pair(Word& a, Word& b) : w1(std::move(a)), w2(std::move(b))
+    { 
+        cout << "\n-- Move with inputs --\n"; 
+        a.print(); 
+        b.print(); 
+    }
+
+    // Pass by rvalue reference &&, construct by moving
+    Word_Pair(Word&& a, Word&& b) : w1(std::move(a)), w2(std::move(b))
+    { 
+        cout << "\n-- Another move with inputs --\n"; 
+        a.print(); 
+        b.print(); 
+    }
+
+    void print() const
+    {
+        cout << "word1 = "; 
+        w1.print();
+        cout << "word2 = "; 
+        w2.print();
+    }
+};
+
+#include "word-pair.h"
+
+int main()
+{
+    cout << "\n*** Print the book’s info ***" << endl;
+    Word author { "Stephen Hawking" };
+    Word title { "Brief History of Time" };
+    Word_Pair book { author, title };
+    book.print();
+    cout << "\n*** Print the book2’s info ***" << endl;
+    Word_Pair book2 { book }; // Really memberwise copy
+    book2.print();
+    cout << "\n*** Print the couple’s info ***" << endl;
+    Word husband { "Mr. C++" };
+    Word wife { "Mrs. C++" };
+    Word_Pair couple { std::move(husband), std::move(wife) };
+    couple.print();
+    cout << "\n*** It’s all destructions now ***" << endl;
+    return 0;
+}
+
+*** Print the book’s info ***
+conversion: Stephen Hawking; 1
+conversion: Brief History of Time; 1
+move: Stephen Hawking; 1
+move: Brief History of Time; 1
+-- Move with inputs --
+null ; 0
+null ; 0
+word1 = Stephen Hawking; 1
+word2 = Brief History of Time; 1
+*** Print the book2’s info ***
+// copy constructor
+copy: Stephen Hawking; 2
+copy: Brief History of Time; 2
+// print
+word1 = Stephen Hawking; 2
+word2 = Brief History of Time; 2
+
+*** Print the couple’s info ***
+conversion: Mr. C++; 1
+conversion: Mrs. C++; 1
+move: Mr. C++; 1
+move: Mrs. C++; 1
+-- Another move with inputs --
+null ; 0
+null ; 0
+word1 = Mr. C++; 1
+word2 = Mrs. C++; 1
+*** It’s all destructions now ***
+
+destructor: Mrs. C++; 1
+desturctor: Mr. C++; 1
+desturctor: null; 0
+desturctor: null; 0
+desturctor: Brief History of Time; 2
+desturctor: Stephen Hawking; 2
+destructor: Brief History of Time ; 1
+destructor: Stephen Hawking ; 1
+desturctor: null; 0
+desturctor: null; 0

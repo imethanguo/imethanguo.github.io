@@ -69,7 +69,7 @@ Some of my handwritten notes :)
 - [COMP 2012 4.27](/assets/lecture_note/COMP2012/4.27.txt)
 - [COMP 2012 4.29](/assets/lecture_note/COMP2012/4.29.txt)
 - [COMP 2012 5.4](/assets/lecture_note/COMP2012/5.4.txt)
-- COMP 2012 5.6
+- [COMP 2012 5.6](/assets/lecture_note/COMP2012/5.6.txt)
 
 
 
@@ -84,6 +84,7 @@ Some of my handwritten notes :)
 - [COMP 3211 Lecture 7: Game Theory](/assets/lecture_note/COMP3211/Lecture%207.pdf)
 - [COMP 3211 Lecture 8: Auctions](/assets/lecture_note/COMP3211/Lecture%208.pdf)
 - COMP 3211 Lecture 9: Knowledge Representation and Reasoning
+- COMP 3211 Lecture 10: Reasoning Under Uncertainty
 
  
 
