@@ -83,8 +83,8 @@ Some of my handwritten notes :)
 - [COMP 3211 Lecture 6: MDP and Reinforcement Learning](/assets/lecture_note/COMP3211/Lecture%206.pdf)
 - [COMP 3211 Lecture 7: Game Theory](/assets/lecture_note/COMP3211/Lecture%207.pdf)
 - [COMP 3211 Lecture 8: Auctions](/assets/lecture_note/COMP3211/Lecture%208.pdf)
-- COMP 3211 Lecture 9: Knowledge Representation and Reasoning
-- COMP 3211 Lecture 10: Reasoning Under Uncertainty
+- [COMP 3211 Lecture 9: Knowledge Representation and Reasoning](/assets/lecture_note/COMP3211/Lecture%209.pdf)
+- [COMP 3211 Lecture 10: Reasoning Under Uncertainty](/assets/lecture_note/COMP3211/Lecture%2010.pdf)
 
  
 
