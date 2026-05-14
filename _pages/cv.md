@@ -40,7 +40,7 @@ Some of my handwritten notes :)
 - Variational Autoencoders
 - Generative Adversarial Networks
 - [Support Vector Machines](/assets/lecture_note/COMP4211/SVM.pdf)
-- [Decision Trees and Random Forests]
+- [Decision Trees and Random Forests](/assets/lecture_note/COMP4211/Decision%20Tree%20and%20Random%20Forest.pdf)
 
 
 ### COMP 2012
