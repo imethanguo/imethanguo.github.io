@@ -1,0 +1,56 @@
+
+——————————————————————————————————————————————————————————————————————————————————
+
+Dereferencing an uninitialized pointer generally leads to a segmentation fault
+int *p;
+*p = 1; // Error!
+
+——————————————————————————————————————————————————————————————————————————————————
+
+error: uninitialized 'const' 'a'
+
+const int a; // Error! Must be initialized!
+
+in class:
+
+class A{
+    private:
+        const int a // here we can write: const int a = 1; to initialize
+
+    public:
+        A():// Here we can initialize a using MIL{
+            a = 3; // Error! We cannot initialize a here!
+        }
+        // if we haven't initialize a then error!
+    
+}
+
+——————————————————————————————————————————————————————————————————————————————————
+
+
+template <typename T1, typename T2>  // 类的参数
+class Pair {
+    friend ostream& operator<<(ostream& os, const Pair<T1, T2>& p);
+    //                                                     ^^  ^^
+    //                                     这两个是类的参数，不是新的模板参数
+};
+
+template <typename T1, typename T2>  // 类的参数
+class Pair {
+    template <typename U1, typename U2>  // 新的模板参数，不会遮蔽
+    friend ostream& operator<<(ostream& os, const Pair<U1, U2>& p);
+    //                                                     ^^  ^^
+    //                                   这是函数模板的参数，名称不同，不会混淆
+};
+
+——————————————————————————————————————————————————————————————————————————————————
+
+
+
+Word_Pair(Word&& a, Word&& b) : w1(a), w2(b)  // a 是右值引用，但本身是左值
+{ cout << "Call WP2" << endl; }
+Word_Pair(Word&& a, Word&& b) : w1(std::move(a)), w2(std::move(b))
+{ cout << "Call WP2" << endl; }
+
+
+——————————————————————————————————————————————————————————————————————————————————

@@ -89,6 +89,11 @@ it is automatically passed by reference ( modifiable )
 
 [=]() mutable { cout << ++x << endl; } // Okay ( const -> non-const)
 
+
+* mutable keyword只改变capture-list ( [] ) 中按值传递的变量 从const -> non-const
+对于其他变量 mutable没有影响
+
+
 "auto" keyword
 The keyword auto allows one to declare a variable without a
 type which will be inferred automatically by the compiler
