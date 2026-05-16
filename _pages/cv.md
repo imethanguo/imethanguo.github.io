@@ -37,7 +37,7 @@ Some of my handwritten notes :)
 - [Recurrent Neural Network](/assets/lecture_note/COMP4211/Recurrent%20Neural%20Network.pdf)
 - [Transformer Models](/assets/lecture_note/COMP4211/Transformer.pdf)
 - [Vision Transformer / CLIP](/assets/lecture_note/COMP4211/ViT_CLIP.pdf)
-- Variational Autoencoders
+- [Variational Autoencoders](/assets/lecture_note/COMP4211/VAE.pdf)
 - Generative Adversarial Networks
 - [Support Vector Machines](/assets/lecture_note/COMP4211/SVM.pdf)
 - [Decision Trees and Random Forests](/assets/lecture_note/COMP4211/Decision%20Tree%20and%20Random%20Forest.pdf)

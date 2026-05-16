@@ -206,7 +206,7 @@ void BST<T>:: remove (const T&x)
     else if (root->left.root && root->right.root)
     {
         root->value = root->right.find_min().value;
-        root->right.remove(root->right.finde_min);
+        root->right.remove(root->right.find_min());
     }
     else
     {
